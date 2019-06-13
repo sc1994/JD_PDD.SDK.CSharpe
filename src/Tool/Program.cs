@@ -56,7 +56,7 @@ namespace Tool
             code.AppendLine($"/// {root.data.description}");
             code.AppendLine($"/// {root.data.apiName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public partial class {className}Request : todo");
+            code.AppendLine($"public partial class {className}Request : BaseRequest");
             code.AppendLine("{");
             code.AppendLine($"public {className}Request() {{ }}");
             code.AppendLine($"public {className}Request(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) {{ }}");
@@ -151,13 +151,13 @@ namespace Tool
             className = string.Join("", className.Split('.').Select(UpperFirst));
             Console.WriteLine(className);
             var code = new StringBuilder();
-            code.AppendLine("namespace SurpriseGamePoll.UnionService");
+            code.AppendLine("namespace todo");
             code.AppendLine("{");
             code.AppendLine("/// <summary>");
             code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--请求参数");
             code.AppendLine($"/// {root.result.scopeName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public partial class {className}Request : PddDDKBaseRequest");
+            code.AppendLine($"public partial class {className}Request : BaseRequest");
             code.AppendLine("{");
             foreach (var item in root.result.requestParamList.Where(x => x.parentId == 0))
             {
@@ -186,7 +186,7 @@ namespace Tool
             var lines = code.ToString().Split("\r\n", StringSplitOptions.None);
             return lines.ToArray();
         }
-        
+
         static void GetPddParamStereoscopic(
             Requestparamlist item,
             Requestparamlist[] all,
