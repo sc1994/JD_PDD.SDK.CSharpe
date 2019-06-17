@@ -35,6 +35,19 @@ namespace Tool
 
     public class Requestparamlist
     {
+        public Requestparamlist() { }
+
+        public Requestparamlist(Responseparamlist item)
+        {
+            id = item.id;
+            parentId = item.parentId;
+            childrenNum = item.childrenNum;
+            paramName = item.paramName;
+            paramType = item.paramType;
+            example = item.example;
+            paramDesc = item.paramDesc;
+            isMust = -1;
+        }
         public int id { get; set; }
         public int parentId { get; set; }
         public int childrenNum { get; set; }

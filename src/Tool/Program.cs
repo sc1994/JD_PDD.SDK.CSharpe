@@ -45,14 +45,14 @@ namespace Tool
             var className = string.Join("", root.data.apiName.Split('.').Select(UpperFirst));
             Console.WriteLine(className);
             var code = new StringBuilder();
-            code.AppendLine("namespace todo");
+            code.AppendLine("namespace Jd.Sdk");
             code.AppendLine("{");
             code.AppendLine("/// <summary>");
             code.AppendLine($"/// {root.data.caption}--请求参数");
             code.AppendLine($"/// {root.data.description}");
             code.AppendLine($"/// {root.data.apiName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public class {className}Request : BaseRequest");
+            code.AppendLine($"public class {className}Request : JdBaseRequest");
             code.AppendLine("{");
             code.AppendLine($"public {className}Request() {{ }}");
             code.AppendLine($"public {className}Request(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) {{ }}");
