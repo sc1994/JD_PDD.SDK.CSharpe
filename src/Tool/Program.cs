@@ -1,13 +1,10 @@
-﻿using System.Xml.Linq;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
 using Flurl.Http;
 using Newtonsoft.Json;
-using System.Web;
 
 namespace Tool
 {
@@ -39,7 +36,6 @@ namespace Tool
             }
         }
 
-
         static async Task<string[]> GetJdCode(int id)
         {
             var sended = await $"https://union.jd.com/api/apiDoc/apiDocInfo?apiId={id}".PostJsonAsync(new object());
@@ -56,7 +52,7 @@ namespace Tool
             code.AppendLine($"/// {root.data.description}");
             code.AppendLine($"/// {root.data.apiName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public partial class {className}Request : BaseRequest");
+            code.AppendLine($"public class {className}Request : BaseRequest");
             code.AppendLine("{");
             code.AppendLine($"public {className}Request() {{ }}");
             code.AppendLine($"public {className}Request(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) {{ }}");
@@ -74,7 +70,7 @@ namespace Tool
             {
                 firstReq = root.data.plists.First(x => x.dataName != "ROOT");
                 code.AppendLine($"protected override string ParamName => \"{firstReq.dataName}\";");
-                code.AppendLine($"protected override object Param => \"{firstReq.dataName}\";");
+                code.AppendLine($"protected override object Param => {firstReq.dataName};");
                 code.AppendLine("/// <summary>");
                 code.AppendLine($"/// 描述：{firstReq.description}");
                 code.AppendLine($"/// 必填：{firstReq.isRequired}");
@@ -90,7 +86,7 @@ namespace Tool
             code.AppendLine($"/// {root.data.description}");
             code.AppendLine($"/// {root.data.apiName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public partial class {className}Response");
+            code.AppendLine($"public class {className}Response");
             code.AppendLine("{");
             var firstData = root.data.slists.First(x => x.dataName == "data");
             foreach (var item in root.data.slists.Where(x => x.parentId == firstData.nodeId))
@@ -123,7 +119,7 @@ namespace Tool
                 code.AppendLine("/// <summary>");
                 code.AppendLine($"/// {item.description}");
                 code.AppendLine("/// </summary>");
-                code.AppendLine($"public partial class {className}_{tempName}");
+                code.AppendLine($"public class {className}_{tempName}");
                 code.AppendLine("{");
                 foreach (var that in thats)
                 {
@@ -157,7 +153,7 @@ namespace Tool
             code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--请求参数");
             code.AppendLine($"/// {root.result.scopeName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public partial class {className}Request : BaseRequest");
+            code.AppendLine($"public class {className}Request : BaseRequest");
             code.AppendLine("{");
             foreach (var item in root.result.requestParamList.Where(x => x.parentId == 0))
             {
@@ -171,7 +167,7 @@ namespace Tool
             code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--响应参数");
             code.AppendLine($"/// {root.result.scopeName}");
             code.AppendLine("/// </summary>");
-            code.AppendLine($"public partial class {className}Response");
+            code.AppendLine($"public class {className}Response");
             code.AppendLine("{");
             foreach (var item in root.result.responseParamList.Where(x => x.parentId == 0))
             {
@@ -212,7 +208,7 @@ namespace Tool
                 code.AppendLine("/// <summary>");
                 code.AppendLine($"/// {item.paramDesc}");
                 code.AppendLine("/// </summary>");
-                code.AppendLine($"public partial class {className}_{tempName}");
+                code.AppendLine($"public class {className}_{tempName}");
                 code.AppendLine("{");
                 foreach (var that in thats)
                 {
