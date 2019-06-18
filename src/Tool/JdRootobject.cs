@@ -47,4 +47,25 @@ namespace Tool
         public long? createTime { get; set; }
         public long? updateTime { get; set; }
     }
+
+    public class JdAllApi
+    {
+        public int code { get; set; }
+        public string message { get; set; }
+        public Datum[] data { get; set; }
+    }
+
+    public class Datum
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public Api[] apis { get; set; }
+    }
+
+    public class Api
+    {
+        public int apiId { get; set; }
+        public string apiName { get; set; }
+        public string caption { get; set; }
+    }
 }

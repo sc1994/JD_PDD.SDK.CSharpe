@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,24 +17,33 @@ namespace Tool
             Console.WriteLine("2-拼多多");
             var type = Console.ReadKey();
             Console.WriteLine();
-            Console.WriteLine("输入接口标识");
-            var key = Console.ReadLine();
-            string[] code = null;
+            Console.WriteLine("获取全部接口");
+
             if (type.KeyChar == '1')
             {
-                code = await GetJdCode(Convert.ToInt32(key));
-                Console.WriteLine(string.Join("", code));
+                var allApiJson = "https://union.jd.com/api/apiDoc/categoryList"
+                           .PostStringAsync("{}").Result
+                           .Content.ReadAsStringAsync().Result;
+
+                var allApi = JsonConvert.DeserializeObject<JdAllApi>(allApiJson);
+                foreach (var item in allApi.data[0].apis)
+                {
+                    var code = await GetJdCode(item.apiId);
+                    Directory.CreateDirectory("../Jd.Sdk/Apis");
+                    var className = code.FirstOrDefault(x => x.Trim().StartsWith("public class ") && x.EndsWith("Request : JdBaseRequest"));
+                    if (className != default)
+                    {
+                        File.WriteAllLines($"../Jd.Sdk/Apis/{className.Trim().Split(' ')[2].Replace("Request", "")}.cs", code);
+                    }
+                    Console.WriteLine("SUNCCESS：" + item.apiName);
+                }
             }
             else if (type.KeyChar == '2')
             {
-                code = await GetPddCode(key.Trim());
-                Console.WriteLine(string.Join("", code));
+                // var code = await GetPddCode(key.Trim());
             }
-            if (code != null)
-            {
-                Directory.CreateDirectory("Codes");
-                File.WriteAllLines($"Codes/{key}.cs", code);
-            }
+            Console.WriteLine("回车结束...");
+            Console.ReadLine();
         }
 
         static async Task<string[]> GetJdCode(int id)
@@ -43,57 +53,75 @@ namespace Tool
             var root = JsonConvert.DeserializeObject<JdRootobject>(@string);
 
             var className = string.Join("", root.data.apiName.Split('.').Select(UpperFirst));
-            Console.WriteLine(className);
             var code = new StringBuilder();
-            code.AppendLine("namespace Jd.Sdk");
+            code.AppendLine("namespace Jd.Sdk.Apis");
             code.AppendLine("{");
-            code.AppendLine("/// <summary>");
-            code.AppendLine($"/// {root.data.caption}--请求参数");
-            code.AppendLine($"/// {root.data.description}");
-            code.AppendLine($"/// {root.data.apiName}");
-            code.AppendLine("/// </summary>");
-            code.AppendLine($"public class {className}Request : JdBaseRequest");
-            code.AppendLine("{");
-            code.AppendLine($"public {className}Request() {{ }}");
-            code.AppendLine($"public {className}Request(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) {{ }}");
-            code.AppendLine($"protected override string method => \"{root.data.apiName}\";");
+            code.AppendLine("    /// <summary>");
+            code.AppendLine($"    /// {root.data.caption}--请求参数");
+            code.AppendLine($"    /// {root.data.description.Trim()}");
+            code.AppendLine($"    /// {root.data.apiName.Trim()}");
+            code.AppendLine("    /// </summary>");
+            code.AppendLine($"    public class {className}Request : JdBaseRequest");
+            code.AppendLine("    {");
+            code.AppendLine($"        public {className}Request() {{ }}");
+            code.AppendLine();
+            code.AppendLine($"        public {className}Request(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) {{ }}");
+            code.AppendLine();
+            code.AppendLine($"        protected override string method => \"{root.data.apiName}\";");
+            code.AppendLine();
             var firstReq = root.data.plists.FirstOrDefault(x => x.dataType.EndsWith("Req"));
             if (firstReq != null)
             {
-                code.AppendLine($"protected override string ParamName => \"{firstReq.dataName}\";");
+                code.AppendLine($"        protected override string ParamName => \"{firstReq.dataName}\";");
+                code.AppendLine();
                 foreach (var item in root.data.plists.Where(x => x.dataName != "ROOT" && x.dataName != firstReq.dataName))
                 {
-                    GetJdParamStereoscopic(item, root.data.plists, className, ref code);
+                    GetJdParamStereoscopic(item, root.data.plists, className, "        ", ref code);
                 }
             }
             else
             {
                 firstReq = root.data.plists.First(x => x.dataName != "ROOT");
-                code.AppendLine($"protected override string ParamName => \"{firstReq.dataName}\";");
-                code.AppendLine($"protected override object Param => {firstReq.dataName};");
-                code.AppendLine("/// <summary>");
-                code.AppendLine($"/// 描述：{firstReq.description}");
-                code.AppendLine($"/// 必填：{firstReq.isRequired}");
-                code.AppendLine($"/// 例如：{firstReq.sampleValue}");
-                code.AppendLine("/// </summary>");
-                code.AppendLine($"public {SwitchType(firstReq.dataType)} {firstReq.dataName} {{ get; set; }}");
+                code.AppendLine($"        protected override string ParamName => \"{firstReq.dataName}\";");
+                code.AppendLine();
+                code.AppendLine($"        protected override object Param => {firstReq.dataName};");
+                code.AppendLine();
+                code.AppendLine("        /// <summary>");
+                code.AppendLine($"        /// 描述：{firstReq.description.Trim()}");
+                code.AppendLine($"        /// 必填：{firstReq.isRequired.Trim()}");
+                code.AppendLine($"        /// 例如：{firstReq.sampleValue.Trim()}");
+                code.AppendLine("        /// </summary>");
+                code.AppendLine($"        public {SwitchType(firstReq.dataType.ToLower())} {firstReq.dataName} {{ get; set; }}");
+                code.AppendLine();
             }
 
-            code.AppendLine("}");
-            code.AppendLine("");
-            code.AppendLine("/// <summary>");
-            code.AppendLine($"/// {root.data.caption}--响应参数");
-            code.AppendLine($"/// {root.data.description}");
-            code.AppendLine($"/// {root.data.apiName}");
-            code.AppendLine("/// </summary>");
-            code.AppendLine($"public class {className}Response");
-            code.AppendLine("{");
-            var firstData = root.data.slists.First(x => x.dataName == "data");
-            foreach (var item in root.data.slists.Where(x => x.parentId == firstData.nodeId))
+            code.AppendLine("    }");
+            code.AppendLine();
+            code.AppendLine();
+            code.AppendLine();
+            var firstData = root.data.slists.FirstOrDefault(x => x.dataName == "data");
+            if (firstData != default)
             {
-                GetJdParamStereoscopic(item, root.data.slists, className, ref code);
+
+                code.AppendLine("    /// <summary>");
+                code.AppendLine($"    /// {root.data.caption}--响应参数");
+                code.AppendLine($"    /// {root.data.description.Trim()}");
+                code.AppendLine($"    /// {root.data.apiName.Trim()}");
+                code.AppendLine("    /// </summary>");
+                code.AppendLine($"    public class {className}Response");
+                code.AppendLine("    {");
+                foreach (var item in root.data.slists.Where(x => x.parentId == firstData.nodeId))
+                {
+                    GetJdParamStereoscopic(item, root.data.slists, className, "        ", ref code);
+                }
+                code.AppendLine("    }");
             }
-            code.AppendLine("}");
+            else
+            {
+                code.AppendLine("    //--------------------------------------");
+                code.AppendLine("    // 返回值没有data内容，直接使用基础响应基类");
+                code.AppendLine("    //--------------------------------------");
+            }
             code.AppendLine("}");
             return code.ToString().Split("\r\n", StringSplitOptions.None);
         }
@@ -102,34 +130,35 @@ namespace Tool
             Plist item,
             Plist[] all,
             string className,
+            string spacing,
             ref StringBuilder code)
         {
-            code.AppendLine("/// <summary>");
-            code.AppendLine($"/// 描述：{item.description}");
-            code.AppendLine($"/// 必填：{item.isRequired}");
-            code.AppendLine($"/// 例如：{item.sampleValue}");
-            code.AppendLine("/// </summary>");
+            code.AppendLine($"{spacing}/// <summary>");
+            code.AppendLine($"{spacing}/// 描述：{item.description}");
+            code.AppendLine($"{spacing}/// 必填：{item.isRequired}");
+            code.AppendLine($"{spacing}/// 例如：{item.sampleValue}");
+            code.AppendLine($"{spacing}/// </summary>");
 
             var thats = all.Where(x => x.parentId == item.nodeId);
             if (thats.Any())
             {
-                var tempName = item.dataType.Replace("[]", "");
+                var tempName = item.dataType.Replace("[]", "").ToLower();
                 var tempSymbol = item.dataType.EndsWith("[]") ? "[]" : "";
-                code.AppendLine($"public {className}_{tempName}{tempSymbol} {item.dataName} {{ get; set; }}");
-                code.AppendLine("/// <summary>");
-                code.AppendLine($"/// {item.description}");
-                code.AppendLine("/// </summary>");
-                code.AppendLine($"public class {className}_{tempName}");
-                code.AppendLine("{");
+                code.AppendLine($"{spacing}public {className}_{tempName}{tempSymbol} {item.dataName} {{ get; set; }}");
+                code.AppendLine($"{spacing}/// <summary>");
+                code.AppendLine($"{spacing}/// {item.description}");
+                code.AppendLine($"{spacing}/// </summary>");
+                code.AppendLine($"{spacing}public class {className}_{tempName}");
+                code.AppendLine($"{spacing}{{");
                 foreach (var that in thats)
                 {
-                    GetJdParamStereoscopic(that, all, className, ref code);
+                    GetJdParamStereoscopic(that, all, className, spacing + "    ", ref code);
                 }
-                code.AppendLine("}");
+                code.AppendLine($"{spacing}}}");
             }
             else
             {
-                code.AppendLine($"public {SwitchType(item.dataType.ToLower())} {item.dataName} {{ get; set; }}");
+                code.AppendLine($"{spacing}public {SwitchType(item.dataType.ToLower())} {item.dataName} {{ get; set; }}");
             }
         }
 
@@ -233,6 +262,7 @@ namespace Tool
             {
                 case "boolean": return "bool";
                 case "integer": return "int";
+                case "map": return "System.Collections.Generic.Dictionary<string, object>";
                 default: return type;
             }
         }

@@ -8,17 +8,25 @@ namespace Jd.Sdk.Apis
     public class JdUnionOpenGoodsPromotiongoodsinfoQueryRequest : JdBaseRequest
     {
         public JdUnionOpenGoodsPromotiongoodsinfoQueryRequest() { }
+
         public JdUnionOpenGoodsPromotiongoodsinfoQueryRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
+
         protected override string method => "jd.union.open.goods.promotiongoodsinfo.query";
+
         protected override string ParamName => "skuIds";
+
         protected override object Param => skuIds;
+
         /// <summary>
-        /// 描述：	京东skuID串，逗号分割，最多100个（非常重要 请大家关注：如果输入的sk串中某个skuID的商品不在推广中[就是没有佣金]，返回结果中不会包含这个商品的信息
+        /// 描述：京东skuID串，逗号分割，最多100个（非常重要 请大家关注：如果输入的sk串中某个skuID的商品不在推广中[就是没有佣金]，返回结果中不会包含这个商品的信息
         /// 必填：true
         /// 例如：5225346,7275691
         /// </summary>
         public string skuIds { get; set; }
+
     }
+
+
 
     /// <summary>
     /// 获取推广商品信息接口--响应参数
@@ -167,3 +175,4 @@ namespace Jd.Sdk.Apis
         public long cid { get; set; }
     }
 }
+

@@ -8,9 +8,13 @@ namespace Jd.Sdk.Apis
     public class JdUnionOpenOrderQueryRequest : JdBaseRequest
     {
         public JdUnionOpenOrderQueryRequest() { }
+
         public JdUnionOpenOrderQueryRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
+
         protected override string method => "jd.union.open.order.query";
+
         protected override string ParamName => "orderReq";
+
         /// <summary>
         /// 描述：页码，返回第几页结果
         /// 必填：true
@@ -48,6 +52,8 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public string key { get; set; }
     }
+
+
 
     /// <summary>
     /// 订单查询接口--响应参数
@@ -109,11 +115,11 @@ namespace Jd.Sdk.Apis
         /// 必填：true
         /// 例如：
         /// </summary>
-        public JdUnionOpenOrderQuery_SkuInfo[] skuList { get; set; }
+        public JdUnionOpenOrderQuery_skuinfo[] skuList { get; set; }
         /// <summary>
         /// 订单包含的商品信息列表
         /// </summary>
-        public class JdUnionOpenOrderQuery_SkuInfo
+        public class JdUnionOpenOrderQuery_skuinfo
         {
             /// <summary>
             /// 描述：实际计算佣金的金额。订单完成后，会将误扣除的运费券金额更正。如订单完成后发生退款，此金额会更新。
@@ -310,3 +316,4 @@ namespace Jd.Sdk.Apis
         public int validCode { get; set; }
     }
 }
+
