@@ -88,7 +88,7 @@ public class JdUnionOpenOrderQueryResponse
 ---
 # 更新日志
 ```
-2019年6月18日 jd全部借楼接入，支持一键更新全部jd接口
+2019年6月18日 jd全部api接入，支持一键更新全部jd接口
             |
             .
             |
