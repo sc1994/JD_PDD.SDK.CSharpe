@@ -11,7 +11,7 @@ namespace Jd.Sdk.Apis
 
         public JdUnionOpenCouponImportationRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
 
-        protected override string method => "jd.union.open.coupon.importation";
+        protected override string Method => "jd.union.open.coupon.importation";
 
         protected override string ParamName => "couponReq";
 

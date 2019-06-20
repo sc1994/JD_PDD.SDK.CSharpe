@@ -12,43 +12,45 @@ namespace Jd.Sdk
 {
     public abstract class JdBaseRequest
     {
-        public JdBaseRequest()
-        {
-            app_key = "todo";
-            app_secret = "todo";
-            timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        }
-
-        public JdBaseRequest(string appKey, string appSecret, string accessToken = null)
-        {
-            app_key = appKey;
-            app_secret = appSecret;
-            access_token = accessToken;
-            timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        }
-
-        private string _baseUrl = "https://router.jd.com/api";
-
-        /// <summary>
-        /// 必填 API接口名称
-        /// </summary>
-        protected abstract string method { get; }
-
-        /// <summary>
-        /// 业务数据名称
-        /// </summary>
-        /// <value></value>
-        protected abstract string ParamName { get; }
-
         /// <summary>
         /// 必填 分配给应用的AppKey
         /// </summary>
-        private string app_key { get; }
+        private readonly string _appKey;
 
         /// <summary>
         /// 密钥
         /// </summary>
-        private string app_secret { get; }
+        private readonly string _appSecret;
+
+        protected JdBaseRequest()
+        {
+            _appKey = "todo";
+            _appSecret = "todo";
+            _timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        /// <summary>
+        /// 非必填 通过code获取的access_token(无需授权的接口，Oauth2颁发的动态令牌,暂不支持使用)
+        /// </summary>
+        private readonly string _accessToken;
+
+        protected JdBaseRequest(string appKey, string appSecret, string accessToken = null)
+        {
+            _appKey = appKey;
+            _appSecret = appSecret;
+            _accessToken = accessToken;
+            _timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        /// <summary>
+        /// 必填 API接口名称
+        /// </summary>
+        protected abstract string Method { get; }
+
+        /// <summary>
+        /// 业务数据名称
+        /// </summary>
+        protected abstract string ParamName { get; }
 
         /// <summary>
         /// 业务数据
@@ -56,50 +58,50 @@ namespace Jd.Sdk
         protected virtual object Param => this;
 
         /// <summary>
-        /// 非必填 通过code获取的access_token(无需授权的接口，Oauth2颁发的动态令牌,暂不支持使用)
+        /// url前缀
         /// </summary>
-        protected virtual string access_token { get; set; }
+        private string _baseUrl = "https://router.jd.com/api";
 
         /// <summary>
         /// 必填 时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2018-08-01 13:00:00。API服务端允许客户端请求最大时间误差为10分钟
         /// </summary>
-        private string timestamp { get; set; }
+        private readonly string _timestamp;
 
         /// <summary>
         /// 必填 响应格式。暂时只支持json
         /// </summary>
-        private string format { get; set; } = "json";
+        private readonly string _format = "json";
 
         /// <summary>
         /// 必填 API协议版本，可选值：1.0 version
         /// </summary>
-        private string v { get; set; } = "1.0";
+        private readonly string _version = "1.0";
 
         /// <summary>
         /// 必填 签名的摘要算法， md5
         /// </summary>
-        private string sign_method { get; set; } = "md5";
+        private readonly string _signMethod = "md5";
 
         /// <summary>
         /// json内容的业务数据
         /// </summary>
         private string param_json
-            => JsonConvert.SerializeObject(new Dictionary<string, object>() { { ParamName, Param } });
+            => JsonConvert.SerializeObject(new Dictionary<string, object> { { ParamName, Param } });
 
         private string GetUrlParams()
         {
             var signParams = new Dictionary<string, object>
             {
-                {nameof(method), method},
-                {nameof(app_key), app_key},
-                {nameof(timestamp), timestamp},
-                {nameof(format), format},
-                {nameof(v), v},
-                {nameof(sign_method), sign_method}
+                {"method", Method},
+                {"app_key", _appKey},
+                {"timestamp", _timestamp},
+                {"format", _format},
+                {"v", _version},
+                {"sign_method", _signMethod}
             };
-            if (!string.IsNullOrWhiteSpace(access_token)) // 如果需要
+            if (!string.IsNullOrWhiteSpace(_accessToken)) // 如果需要
             {
-                signParams.Add(nameof(access_token), access_token);
+                signParams.Add(nameof(_accessToken), _accessToken);
             }
 
             var urlParams = string.Empty;
@@ -109,7 +111,7 @@ namespace Jd.Sdk
             }
 
             signParams.Add(nameof(param_json), param_json); // param json 参与加密但是不参与url
-            var sign = Sign.SignToMd5(signParams, app_secret);
+            var sign = Sign.SignToMd5(signParams, _appSecret);
             urlParams += "&sign=" + sign;
             return urlParams.TrimStart('&');
         }
@@ -119,16 +121,17 @@ namespace Jd.Sdk
         {
             var url = _baseUrl + "?" + GetUrlParams();
 
-            var @async = await url
+            var async = await url
                         .WithHeader("Content-Type", "application/x-www-form-urlencoded")
                         .PostStringAsync($"param_json={HttpUtility.UrlEncode(param_json, Encoding.UTF8)}");
 
-            var @string = await @async.Content.ReadAsStringAsync();
+            var @string = await async.Content.ReadAsStringAsync();
             try
             {
                 var flag = JsonConvert.DeserializeObject<Dictionary<string, JdResponseResultEntity>>(@string).First();
                 var value = flag.Value;
-                return JsonConvert.DeserializeObject<TResponse>(value.result);
+                if (value.Code != "0") throw new Exception(@string);
+                return JsonConvert.DeserializeObject<TResponse>(value.Result);
             }
             catch (Exception ex)
             {

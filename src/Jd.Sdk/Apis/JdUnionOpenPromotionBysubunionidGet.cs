@@ -11,7 +11,7 @@ namespace Jd.Sdk.Apis
 
         public JdUnionOpenPromotionBysubunionidGetRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
 
-        protected override string method => "jd.union.open.promotion.bysubunionid.get";
+        protected override string Method => "jd.union.open.promotion.bysubunionid.get";
 
         protected override string ParamName => "promotionCodeReq";
 

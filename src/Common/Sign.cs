@@ -10,7 +10,7 @@ namespace Common
         /// <summary>
         /// sign to md5
         /// </summary>
-        /// <param name="@params"></param>
+        /// <param name="params"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
         public static string SignToMd5(Dictionary<string, object> @params, string secret)

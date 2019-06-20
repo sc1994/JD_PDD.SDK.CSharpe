@@ -11,7 +11,7 @@ namespace Jd.Sdk.Apis
 
         public JdUnionOpenCouponQueryRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
 
-        protected override string method => "jd.union.open.coupon.query";
+        protected override string Method => "jd.union.open.coupon.query";
 
         protected override string ParamName => "couponUrls";
 

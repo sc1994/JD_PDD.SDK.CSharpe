@@ -1,13 +1,11 @@
-﻿using Common;
-
-namespace Jd.Sdk
+﻿namespace Jd.Sdk
 {
     /// <summary>
     /// 响应基类
     /// </summary>
-    public abstract class JdBaseResponse 
+    public abstract class JdBaseResponse
     {
-        public string apiCodeEnum { get; set; } = string.Empty;
+        public string ApiCodeEnum { get; set; } = string.Empty;
 
         /// <summary>
         /// 200:success;
@@ -24,19 +22,19 @@ namespace Jd.Sdk
         /// 2003103:接口异常，没有相关权限;
         /// 2003104:请求商品信息{X}条，成功返回{Y}条, 失败{Z}条;
         /// </summary>
-        public int code { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// 结果信息，明细请参照code描述
         /// </summary>
-        public string message { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
 
-        public string requestId { get; set; } = string.Empty;
+        public string RequestId { get; set; } = string.Empty;
 
         /// <summary>
         /// 弱类型的（当不需要处理数据的时候）
         /// </summary>
-        public object data { get; set; }
+        public object Data { get; set; }
     }
 
     /// <summary>
@@ -46,13 +44,13 @@ namespace Jd.Sdk
     /// <typeparam name="T"></typeparam>
     public class JdBaseResponse<T> : JdBaseResponse
     {
-        public new T data { get; set; }
+        public new T Data { get; set; }
     }
 
     public class JdResponseResultEntity
     {
-        public string result { get; set; }
-        public string code { get; set; }
-        public string msg { get; set; }
+        public string Result { get; set; }
+        public string Code { get; set; }
+        public string Msg { get; set; }
     }
 }

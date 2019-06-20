@@ -11,7 +11,7 @@ namespace Jd.Sdk.Apis
 
         public JdUnionOpenPositionQueryRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
 
-        protected override string method => "jd.union.open.position.query";
+        protected override string Method => "jd.union.open.position.query";
 
         protected override string ParamName => "positionReq";
 

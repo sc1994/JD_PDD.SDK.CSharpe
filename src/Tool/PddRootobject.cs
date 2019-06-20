@@ -1,14 +1,14 @@
 namespace Tool
 {
-    public class PddRootobject
+    public class JdPddRootobject
     {
         public bool success { get; set; }
         public int errorCode { get; set; }
         public object errorMsg { get; set; }
-        public Result result { get; set; }
+        public JdResult result { get; set; }
     }
 
-    public class Result
+    public class JdResult
     {
         public int id { get; set; }
         public int catId { get; set; }
@@ -25,19 +25,19 @@ namespace Tool
         public object requestCodeExample { get; set; }
         public string responseCodeExample { get; set; }
         public string feeType { get; set; }
-        public Requestparamlist[] requestParamList { get; set; }
-        public Responseparamlist[] responseParamList { get; set; }
-        public Errorparamlist[] errorParamList { get; set; }
-        public Limiter[] limiters { get; set; }
-        public Permissionspkg[] permissionsPkgs { get; set; }
-        public Sdkdemo[] sdkDemos { get; set; }
+        public JdRequestparamlist[] requestParamList { get; set; }
+        public JdResponseparamlist[] responseParamList { get; set; }
+        public JdErrorparamlist[] errorParamList { get; set; }
+        public JdLimiter[] limiters { get; set; }
+        public JdPermissionspkg[] permissionsPkgs { get; set; }
+        public JdSdkdemo[] sdkDemos { get; set; }
     }
 
-    public class Requestparamlist
+    public class JdRequestparamlist
     {
-        public Requestparamlist() { }
+        public JdRequestparamlist() { }
 
-        public Requestparamlist(Responseparamlist item)
+        public JdRequestparamlist(JdResponseparamlist item)
         {
             id = item.id;
             parentId = item.parentId;
@@ -59,7 +59,7 @@ namespace Tool
         public string paramDesc { get; set; }
     }
 
-    public class Responseparamlist
+    public class JdResponseparamlist
     {
         public int id { get; set; }
         public int parentId { get; set; }
@@ -71,7 +71,7 @@ namespace Tool
         public string paramDesc { get; set; }
     }
 
-    public class Errorparamlist
+    public class JdErrorparamlist
     {
         public string errorCode { get; set; }
         public string errorMsg { get; set; }
@@ -79,28 +79,28 @@ namespace Tool
         public string outerErrorCode { get; set; }
     }
 
-    public class Limiter
+    public class JdLimiter
     {
         public int limiterLevel { get; set; }
         public int timeRange { get; set; }
         public int times { get; set; }
     }
 
-    public class Permissionspkg
+    public class JdPermissionspkg
     {
         public int id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public Apptypelist[] appTypeList { get; set; }
+        public JdApptypelist[] appTypeList { get; set; }
     }
 
-    public class Apptypelist
+    public class JdApptypelist
     {
         public int id { get; set; }
         public string name { get; set; }
     }
 
-    public class Sdkdemo
+    public class JdSdkdemo
     {
         public string name { get; set; }
         public string description { get; set; }
