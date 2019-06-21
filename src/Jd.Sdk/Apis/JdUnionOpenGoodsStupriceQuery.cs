@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.goods.stuprice.query";
 
         protected override string ParamName => "goodsReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenGoodsStupriceQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenGoodsStupriceQueryResponse[]>>();
 
         /// <summary>
         /// 描述：sku id集合，长度30。如果传值，忽略其他查询条件

@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.user.pid.get";
 
         protected override string ParamName => "pidReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenUserPidGetResponse>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenUserPidGetResponse>>();
 
         /// <summary>
         /// 描述：联盟ID

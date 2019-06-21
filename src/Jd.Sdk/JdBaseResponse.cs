@@ -47,6 +47,24 @@
         public new T Data { get; set; }
     }
 
+    /// <summary>
+    /// 分页基础返回类
+    /// </summary>
+    public class JdBasePageResponse<T> : JdBaseResponse
+    {
+        public new T[] Data { get; set; }
+
+        /// <summary>
+        /// 是否还有更多,true：还有数据；false:已查询完毕，没有数据
+        /// </summary>
+        public bool HasMore { get; set; }
+
+        /// <summary>
+        /// 总数量
+        /// </summary>
+        public long TotalCount { get; set; }
+    }
+
     public class JdResponseResultEntity
     {
         public string Result { get; set; }

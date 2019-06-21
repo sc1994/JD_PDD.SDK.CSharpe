@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.position.create";
 
         protected override string ParamName => "positionReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenPositionCreateResponse>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenPositionCreateResponse>>();
 
         /// <summary>
         /// 描述：需要创建的目标联盟id

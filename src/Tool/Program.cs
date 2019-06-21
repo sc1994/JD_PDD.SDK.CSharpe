@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace Tool
 {
     class JdProgram
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
             Console.WriteLine("1-京东");
             Console.WriteLine("2-拼多多");
@@ -35,7 +34,7 @@ namespace Tool
                     {
                         File.WriteAllLines($"../Jd.Sdk/Apis/{className.Trim().Split(' ')[2].Replace("Request", "")}.cs", code);
                     }
-                    Console.WriteLine("SUNCCESS：" + item.ApiName);
+                    Console.WriteLine("SUCCESS：" + item.ApiName);
                 }
             }
             else if (type.KeyChar == '2')
@@ -48,12 +47,14 @@ namespace Tool
 
         static async Task<string[]> GetJdCode(int id)
         {
-            var sended = await $"https://union.jd.com/api/apiDoc/apiDocInfo?apiId={id}".PostJsonAsync(new object());
-            var @string = await sended.Content.ReadAsStringAsync();
+            var sender = await $"https://union.jd.com/api/apiDoc/apiDocInfo?apiId={id}".PostJsonAsync(new object());
+            var @string = await sender.Content.ReadAsStringAsync();
             var root = JsonConvert.DeserializeObject<JdRootObject>(@string);
 
             var className = string.Join("", root.Data.ApiName.Split('.').Select(UpperFirst));
             var code = new StringBuilder();
+            code.AppendLine("using System.Threading.Tasks;");
+            code.AppendLine();
             code.AppendLine("namespace Jd.Sdk.Apis");
             code.AppendLine("{");
             code.AppendLine("    /// <summary>");
@@ -74,10 +75,6 @@ namespace Tool
             {
                 code.AppendLine($"        protected override string ParamName => \"{firstReq.DataName}\";");
                 code.AppendLine();
-                foreach (var item in root.Data.PLists.Where(x => x.DataName != "ROOT" && x.DataName != firstReq.DataName))
-                {
-                    GetJdParamStereoscopic(item, root.Data.PLists, className, "        ", ref code);
-                }
             }
             else
             {
@@ -95,11 +92,31 @@ namespace Tool
                 code.AppendLine();
             }
 
+            var isPage = root.Data.SLists.Any(x => x.DataName == "hasMore")
+                ? "JdBasePageResponse"
+                : "JdBaseResponse";
+            var firstData = root.Data.SLists.FirstOrDefault(x => x.DataName == "data");
+            var isArray = string.Empty;
+            if (firstData != default)
+            {
+                isArray = firstData.DataType.EndsWith("[]")
+                    ? $"<{className}Response[]>"
+                    : $"<{className}Response>";
+            }
+            code.AppendLine($"        public async Task<{isPage}{isArray}> InvokeAsync()");
+            code.AppendLine($"            => await PostAsync<{isPage}{isArray}>();");
+            code.AppendLine();
+
+            foreach (var item in root.Data.PLists.Where(x => x.DataName != "ROOT" && x.DataName != firstReq.DataName))
+            {
+                GetJdParamStereoscopic(item, root.Data.PLists, className, "        ", ref code);
+            }
+
             code.AppendLine("    }");
             code.AppendLine();
             code.AppendLine();
             code.AppendLine();
-            var firstData = root.Data.SLists.FirstOrDefault(x => x.DataName == "data");
+
             if (firstData != default)
             {
 
@@ -123,7 +140,7 @@ namespace Tool
                 code.AppendLine("    //--------------------------------------");
             }
             code.AppendLine("}");
-            return code.ToString().Split("\r\n", StringSplitOptions.None);
+            return code.ToString().Split("\r\n");
         }
 
         static void GetJdParamStereoscopic(
@@ -139,8 +156,9 @@ namespace Tool
             code.AppendLine($"{spacing}/// 例如：{item.SampleValue}");
             code.AppendLine($"{spacing}/// </summary>");
 
-            var thats = all.Where(x => x.ParentId == item.NodeId);
-            if (thats.Any())
+            var currentNodes = all.Where(x => x.ParentId == item.NodeId).ToArray();
+
+            if (currentNodes.Any())
             {
                 var tempName = item.DataType.Replace("[]", "").ToLower();
                 var tempSymbol = item.DataType.EndsWith("[]") ? "[]" : "";
@@ -150,7 +168,7 @@ namespace Tool
                 code.AppendLine($"{spacing}/// </summary>");
                 code.AppendLine($"{spacing}public class {className}_{tempName}");
                 code.AppendLine($"{spacing}{{");
-                foreach (var that in thats)
+                foreach (var that in currentNodes)
                 {
                     GetJdParamStereoscopic(that, all, className, spacing + "    ", ref code);
                 }
@@ -164,12 +182,9 @@ namespace Tool
 
         static async Task<string[]> GetPddCode(string id)
         {
-            var sended = await "https://open-api.pinduoduo.com/pop/doc/info/get".PostJsonAsync(new
-            {
-                id
-            });
+            var sender = await "https://open-api.pinduoduo.com/pop/doc/info/get".PostJsonAsync(new { id });
 
-            var @string = await sended.Content.ReadAsStringAsync();
+            var @string = await sender.Content.ReadAsStringAsync();
             var root = JsonConvert.DeserializeObject<JdPddRootobject>(@string);
 
             var className = root.result.scopeName;
@@ -208,7 +223,7 @@ namespace Tool
             }
             code.AppendLine("}");
             code.AppendLine("}");
-            var lines = code.ToString().Split("\r\n", StringSplitOptions.None);
+            var lines = code.ToString().Split("\r\n");
             return lines.ToArray();
         }
 
@@ -228,8 +243,9 @@ namespace Tool
             code.AppendLine($"/// 例如：{item.example}");
             code.AppendLine("/// </summary>");
 
-            var thats = all.Where(x => x.parentId == item.id);
-            if (thats.Any())
+            var currentNodes = all.Where(x => x.parentId == item.id).ToArray();
+
+            if (currentNodes.Any())
             {
                 var tempName = string.Join("", item.paramName.Split('_').Select(UpperFirst));
                 var tempSymbol = item.paramType.Replace("OBJECT", "");
@@ -239,7 +255,7 @@ namespace Tool
                 code.AppendLine("/// </summary>");
                 code.AppendLine($"public class {className}_{tempName}");
                 code.AppendLine("{");
-                foreach (var that in thats)
+                foreach (var that in currentNodes)
                 {
                     GetPddParamStereoscopic(that, all, className, ref code);
                 }

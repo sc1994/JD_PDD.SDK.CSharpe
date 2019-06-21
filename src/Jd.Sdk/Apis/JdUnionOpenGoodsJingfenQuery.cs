@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.goods.jingfen.query";
 
         protected override string ParamName => "goodsReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenGoodsJingfenQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenGoodsJingfenQueryResponse[]>>();
 
         /// <summary>
         /// 描述：1-好券商品,2-京粉APP-jingdong.超级大卖场,3-小程序-jingdong.好券商品,4-京粉APP-jingdong.主题聚惠1-jingdong.服装运动,5-京粉APP-jingdong.主题聚惠2-jingdong.精选家电,6-京粉APP-jingdong.主题聚惠3-jingdong.超市,7-京粉APP-jingdong.主题聚惠4-jingdong.居家生活,10-9.9专区,11-品牌好货-jingdong.潮流范儿,12-品牌好货-jingdong.精致生活,13-品牌好货-jingdong.数码先锋,14-品牌好货-jingdong.品质家电,15-京仓配送,16-公众号-jingdong.好券商品,17-公众号-jingdong.9.9,18-公众号-jingdong.京东配送

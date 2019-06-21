@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.coupon.importation";
 
         protected override string ParamName => "couponReq";
+
+        public async Task<JdBaseResponse> InvokeAsync()
+            => await PostAsync<JdBaseResponse>();
 
         /// <summary>
         /// 描述：商品ID

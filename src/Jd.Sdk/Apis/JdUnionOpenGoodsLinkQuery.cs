@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.goods.link.query";
 
         protected override string ParamName => "goodsReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenGoodsLinkQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenGoodsLinkQueryResponse[]>>();
 
         /// <summary>
         /// 描述：链接

@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.goods.query";
 
         protected override string ParamName => "goodsReqDTO";
+
+        public async Task<JdBaseResponse<JdUnionOpenGoodsQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenGoodsQueryResponse[]>>();
 
         /// <summary>
         /// 描述：一级类目id

@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.promotion.common.get";
 
         protected override string ParamName => "promotionCodeReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenPromotionCommonGetResponse>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenPromotionCommonGetResponse>>();
 
         /// <summary>
         /// 描述：推广物料

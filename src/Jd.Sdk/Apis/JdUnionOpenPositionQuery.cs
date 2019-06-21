@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.position.query";
 
         protected override string ParamName => "positionReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenPositionQueryResponse>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenPositionQueryResponse>>();
 
         /// <summary>
         /// 描述：需要查询的目标联盟id

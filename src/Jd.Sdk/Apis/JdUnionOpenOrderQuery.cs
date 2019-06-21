@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.order.query";
 
         protected override string ParamName => "orderReq";
+
+        public async Task<JdBasePageResponse<JdUnionOpenOrderQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBasePageResponse<JdUnionOpenOrderQueryResponse[]>>();
 
         /// <summary>
         /// 描述：页码，返回第几页结果

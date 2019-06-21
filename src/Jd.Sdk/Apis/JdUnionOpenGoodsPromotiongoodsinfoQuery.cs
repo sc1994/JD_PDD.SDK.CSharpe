@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -23,6 +25,9 @@ namespace Jd.Sdk.Apis
         /// 例如：5225346,7275691
         /// </summary>
         public string skuIds { get; set; }
+
+        public async Task<JdBaseResponse<JdUnionOpenGoodsPromotiongoodsinfoQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenGoodsPromotiongoodsinfoQueryResponse[]>>();
 
     }
 

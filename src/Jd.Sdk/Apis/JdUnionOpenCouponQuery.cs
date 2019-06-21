@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -23,6 +25,9 @@ namespace Jd.Sdk.Apis
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
         /// </summary>
         public string[] couponUrls { get; set; }
+
+        public async Task<JdBaseResponse<JdUnionOpenCouponQueryResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenCouponQueryResponse[]>>();
 
     }
 

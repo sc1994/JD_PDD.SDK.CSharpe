@@ -116,7 +116,7 @@ namespace Jd.Sdk
             return urlParams.TrimStart('&');
         }
 
-        public async Task<TResponse> PostAsync<TResponse>()
+        protected async Task<TResponse> PostAsync<TResponse>()
             where TResponse : JdBaseResponse
         {
             var url = _baseUrl + "?" + GetUrlParams();

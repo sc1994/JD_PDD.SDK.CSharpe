@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.promotion.byunionid.get";
 
         protected override string ParamName => "promotionCodeReq";
+
+        public async Task<JdBaseResponse<JdUnionOpenPromotionByunionidGetResponse>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenPromotionByunionidGetResponse>>();
 
         /// <summary>
         /// 描述：推广物料链接，建议链接使用微Q前缀，能较好适配微信手Q页面

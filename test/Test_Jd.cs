@@ -21,7 +21,7 @@ namespace test
         public async void Test_JdUnionOpenCategoryGoodsGet()
         {
             var req = new JdUnionOpenCategoryGoodsGetRequest(_appKey, _appSecret);
-            var res = await req.PostAsync<JdBaseResponse<JdUnionOpenCategoryGoodsGetResponse[]>>();
+            var res = await req.InvokeAsync();
             Assert.True(res.Data.Length > 0);
         }
     }

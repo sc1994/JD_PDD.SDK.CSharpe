@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Jd.Sdk.Apis
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace Jd.Sdk.Apis
         protected override string Method => "jd.union.open.category.goods.get";
 
         protected override string ParamName => "req";
+
+        public async Task<JdBaseResponse<JdUnionOpenCategoryGoodsGetResponse[]>> InvokeAsync()
+            => await PostAsync<JdBaseResponse<JdUnionOpenCategoryGoodsGetResponse[]>>();
 
         /// <summary>
         /// 描述：父类目id(一级父类目为0) 
