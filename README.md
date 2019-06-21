@@ -5,12 +5,15 @@
 解决`json`对应`class`的复杂嵌套关系。尽量让代码足够清晰。
 
 ---
+
 ## Feature
+
 无需关心jd或者pdd的调用规则，只需关心 **业务** 请求响应参数 。
 
 针对需要补充的系统参数，在继承`BaseRequest`之后，会有未实现的异常。
 
 生成注释完善的请求响应实体，统一使用方法名的规范命名规则
+
 ```c#
 /// <summary>
 /// 商品类目查询--请求参数
@@ -48,18 +51,22 @@ public partial class JdUnionOpenCategoryGoodsGetResponse
     .
 }
 ```
+
 支持默认和可传入的appkey等主要参数
+
 ```c#
 public JdUnionOpenCategoryGoodsGetRequest() { }
 public JdUnionOpenCategoryGoodsGetRequest(string appKey, string appSecret, string accessToken = null) : base(appKey, appSecret, accessToken) { }
 ```
 
 一句话调用
+
 ```c#
-await new JdUnionOpenCategoryGoodsGetRequest(...).PostAsync<TResponse>();
+await new JdUnionOpenCategoryGoodsGetRequest(...).InvokeAsync();
 ```
 
 ## 使用接口生成工具
+
 - 进入`src/Tool`目录，运行`dotnet run`
 - 选择jd或者pdd
 - jd需要输入接口id，比如：`https://union.jd.com/openplatform/api/650` 这个接口的id就是650。  
@@ -68,12 +75,14 @@ pdd需要传入接口标识，比如：`https://open.pinduoduo.com/#/apidocument
 - 代码不能直接使用，命名空间需要修改，而且有些数据类型使用了大写等问题。理论上只要修改掉报错代码，接口就能调用成功。
 
 ## 正确的使用姿势
+
 目前不提供dll直接调用，希望的使用方法是copy基类代码到自己的项目，针对需要使用的接口使用Tool去生成请求响应实体。就这样~  
 
-
 ## 缺点
+
 - 采用代码生成无法识别接口的相同部分，也就意味这生成的代码几乎无代码复用。会产生一定程度的重复代码。
-- 嵌套的实体会生成嵌套类代码，*一般出现在相应实体中*，会产生贼长的命名。
+- 嵌套的实体会生成嵌套类代码，*出现在相应实体中*，会产生贼长的命名。
+
 ```c#
 public class JdUnionOpenOrderQueryResponse
 {
@@ -85,9 +94,17 @@ public class JdUnionOpenOrderQueryResponse
     ...
 }
 ```
+
 ---
-# 更新日志
-```
+
+## 更新日志
+
+```txt
+2019年6月21日 优化调用代码，添加单元测试
+            |
+            .
+            |
+            v
 2019年6月18日 jd全部api接入，支持一键更新全部jd接口
             |
             .
