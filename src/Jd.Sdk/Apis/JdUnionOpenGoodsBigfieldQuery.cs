@@ -6,6 +6,7 @@ namespace Jd.Sdk.Apis
     /// 大字段商品查询接口（内测版）【申请】--请求参数
     /// 大字段商品查询接口（内测版）【申请】
     /// jd.union.open.goods.bigfield.query
+    /// https://union.jd.com/openplatform/api/761
     /// </summary>
     public class JdUnionOpenGoodsBigfieldQueryRequest : JdBaseRequest
     {
@@ -22,16 +23,16 @@ namespace Jd.Sdk.Apis
 
         /// <summary>
         /// 描述：skuId集合
-        /// 必填：true
         /// 例如：29357345299
+        /// 必填
         /// </summary>
-        public long[] skuIds { get; set; }
+        public long[] SkuIds { get; set; }
         /// <summary>
         /// 描述：查询域集合，不填写则查询全部
-        /// 必填：false
         /// 例如：&quot;categoryInfo&quot;,&quot;imageInfo&quot;,&quot;baseBigFieldInfo&quot;,&quot;bookBigFieldInfo&quot;,&quot;videoBigFieldInfo&quot;
+        /// 不必填
         /// </summary>
-        public string[] fields { get; set; }
+        public string[] Fields { get; set; }
     }
 
 
@@ -45,19 +46,16 @@ namespace Jd.Sdk.Apis
     {
         /// <summary>
         /// 描述：skuId
-        /// 必填：true
         /// 例如：1111
         /// </summary>
-        public long skuId { get; set; }
+        public long SkuId { get; set; }
         /// <summary>
         /// 描述：商品名称
-        /// 必填：true
         /// 例如：手机
         /// </summary>
-        public string skuName { get; set; }
+        public string SkuName { get; set; }
         /// <summary>
         /// 描述：目录信息
-        /// 必填：true
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsBigfieldQuery_categoryinfo categoryInfo { get; set; }
@@ -68,44 +66,37 @@ namespace Jd.Sdk.Apis
         {
             /// <summary>
             /// 描述：一级类目ID
-            /// 必填：true
             /// 例如：6144
             /// </summary>
-            public long cid1 { get; set; }
+            public long Cid1 { get; set; }
             /// <summary>
             /// 描述：一级类目名称
-            /// 必填：true
             /// 例如：珠宝首饰
             /// </summary>
-            public string cid1Name { get; set; }
+            public string Cid1Name { get; set; }
             /// <summary>
             /// 描述：二级类目ID
-            /// 必填：true
             /// 例如：12041
             /// </summary>
-            public long cid2 { get; set; }
+            public long Cid2 { get; set; }
             /// <summary>
             /// 描述：二级类目名称
-            /// 必填：true
             /// 例如：木手串/把件
             /// </summary>
-            public string cid2Name { get; set; }
+            public string Cid2Name { get; set; }
             /// <summary>
             /// 描述：三级类目ID
-            /// 必填：true
             /// 例如：12052
             /// </summary>
-            public long cid3 { get; set; }
+            public long Cid3 { get; set; }
             /// <summary>
             /// 描述：三级类目名称
-            /// 必填：true
             /// 例如：其他
             /// </summary>
-            public string cid3Name { get; set; }
+            public string Cid3Name { get; set; }
         }
         /// <summary>
         /// 描述：图片信心
-        /// 必填：true
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsBigfieldQuery_imageinfo imageInfo { get; set; }
@@ -116,7 +107,6 @@ namespace Jd.Sdk.Apis
         {
             /// <summary>
             /// 描述：图片合集
-            /// 必填：true
             /// 例如：
             /// </summary>
             public JdUnionOpenGoodsBigfieldQuery_urlinfo[] imageList { get; set; }
@@ -127,15 +117,13 @@ namespace Jd.Sdk.Apis
             {
                 /// <summary>
                 /// 描述： 图片链接地址，第一个图片链接为主图链接
-                /// 必填：true
                 /// 例如：http://img14.360buyimg.com/ads/jfs/t22495/56/628456568/380476/9befc935/5b39fb01N7d1af390.jpg
                 /// </summary>
-                public string url { get; set; }
+                public string Url { get; set; }
             }
         }
         /// <summary>
         /// 描述：基础大字段信息
-        /// 必填：true
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsBigfieldQuery_basebigfieldinfo baseBigFieldInfo { get; set; }
@@ -146,26 +134,22 @@ namespace Jd.Sdk.Apis
         {
             /// <summary>
             /// 描述：商品介绍
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string wdis { get; set; }
+            public string Wdis { get; set; }
             /// <summary>
             /// 描述：规格参数
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string propCode { get; set; }
+            public string PropCode { get; set; }
             /// <summary>
             /// 描述：包装清单(仅自营商品)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string wareQD { get; set; }
+            public string WareQD { get; set; }
         }
         /// <summary>
         /// 描述：图书大字段信息
-        /// 必填：true
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsBigfieldQuery_bookbigfieldinfo bookBigFieldInfo { get; set; }
@@ -176,68 +160,57 @@ namespace Jd.Sdk.Apis
         {
             /// <summary>
             /// 描述：媒体评论
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string comments { get; set; }
+            public string Comments { get; set; }
             /// <summary>
             /// 描述：精彩文摘与插图(插图)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string image { get; set; }
+            public string Image { get; set; }
             /// <summary>
             /// 描述：内容摘要(内容简介)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string contentDesc { get; set; }
+            public string ContentDesc { get; set; }
             /// <summary>
             /// 描述：产品描述(相关商品)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string relatedProducts { get; set; }
+            public string RelatedProducts { get; set; }
             /// <summary>
             /// 描述：编辑推荐
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string editerDesc { get; set; }
+            public string EditerDesc { get; set; }
             /// <summary>
             /// 描述：目录
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string catalogue { get; set; }
+            public string Catalogue { get; set; }
             /// <summary>
             /// 描述：精彩摘要(精彩书摘)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string bookAbstract { get; set; }
+            public string BookAbstract { get; set; }
             /// <summary>
             /// 描述：作者简介
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string authorDesc { get; set; }
+            public string AuthorDesc { get; set; }
             /// <summary>
             /// 描述：前言(前言/序言)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string introduction { get; set; }
+            public string Introduction { get; set; }
             /// <summary>
             /// 描述：产品特色
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string productFeatures { get; set; }
+            public string ProductFeatures { get; set; }
         }
         /// <summary>
         /// 描述：影音大字段信息
-        /// 必填：true
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsBigfieldQuery_videobigfieldinfo videoBigFieldInfo { get; set; }
@@ -248,58 +221,49 @@ namespace Jd.Sdk.Apis
         {
             /// <summary>
             /// 描述：评论
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string comments { get; set; }
+            public string Comments { get; set; }
             /// <summary>
             /// 描述：商品描述(精彩剧照)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string image { get; set; }
+            public string Image { get; set; }
             /// <summary>
             /// 描述：内容摘要(内容简介)
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string contentDesc { get; set; }
+            public string ContentDesc { get; set; }
             /// <summary>
             /// 描述：编辑推荐
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string editerDesc { get; set; }
+            public string EditerDesc { get; set; }
             /// <summary>
             /// 描述：目录
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string catalogue { get; set; }
+            public string Catalogue { get; set; }
             /// <summary>
             /// 描述：包装清单
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string box_Contents { get; set; }
+            public string Box_Contents { get; set; }
             /// <summary>
             /// 描述：特殊说明
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string material_Description { get; set; }
+            public string Material_Description { get; set; }
             /// <summary>
             /// 描述：说明书
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string manual { get; set; }
+            public string Manual { get; set; }
             /// <summary>
             /// 描述：产品特色
-            /// 必填：true
             /// 例如：
             /// </summary>
-            public string productFeatures { get; set; }
+            public string ProductFeatures { get; set; }
         }
     }
 }

@@ -32,9 +32,21 @@ namespace Tool
                     var className = code.FirstOrDefault(x => x.Trim().StartsWith("public class ") && x.EndsWith("Request : JdBaseRequest"));
                     if (className != default)
                     {
-                        File.WriteAllLines($"../Jd.Sdk/Apis/{className.Trim().Split(' ')[2].Replace("Request", "")}.cs", code);
+                        var apiName = className.Trim().Split(' ')[2].Replace("Request", "");
+                        File.WriteAllLines($"../Jd.Sdk/Apis/{apiName}.cs", code);
+                        Console.WriteLine("[Fact]");
+                        Console.WriteLine($"public async void Test_{apiName}()");
+                        Console.WriteLine("{");
+                        Console.WriteLine($"var req = new {apiName}Request(_appKey, _appSecret)");
+                        Console.WriteLine("{");
+                        Console.WriteLine("// todo 参数");
+                        Console.WriteLine("};");
+                        Console.WriteLine("var res = await req.InvokeAsync();");
+                        Console.WriteLine("_output.WriteLine(JsonConvert.SerializeObject(res, Formatting.Indented));");
+                        Console.WriteLine("Assert.True(res.Code == 200);");
+                        Console.WriteLine("}");
                     }
-                    Console.WriteLine("SUCCESS：" + item.ApiName);
+                    // Console.WriteLine("SUCCESS：" + item.ApiName);
                 }
             }
             else if (type.KeyChar == '2')
@@ -61,6 +73,7 @@ namespace Tool
             code.AppendLine($"    /// {root.Data.Caption}--请求参数");
             code.AppendLine($"    /// {root.Data.Description.Trim()}");
             code.AppendLine($"    /// {root.Data.ApiName.Trim()}");
+            code.AppendLine($"    /// https://union.jd.com/openplatform/api/{id}");
             code.AppendLine("    /// </summary>");
             code.AppendLine($"    public class {className}Request : JdBaseRequest");
             code.AppendLine("    {");
@@ -81,14 +94,14 @@ namespace Tool
                 firstReq = root.Data.PLists.First(x => x.DataName != "ROOT");
                 code.AppendLine($"        protected override string ParamName => \"{firstReq.DataName}\";");
                 code.AppendLine();
-                code.AppendLine($"        protected override object Param => {firstReq.DataName};");
+                code.AppendLine($"        protected override object Param => {UpperFirst(firstReq.DataName)};");
                 code.AppendLine();
                 code.AppendLine("        /// <summary>");
                 code.AppendLine($"        /// 描述：{firstReq.Description.Trim()}");
-                code.AppendLine($"        /// 必填：{firstReq.IsRequired.Trim()}");
                 code.AppendLine($"        /// 例如：{firstReq.SampleValue.Trim()}");
+                code.AppendLine($"        /// {(firstReq.IsRequired.Trim() == "true" ? "必填" : "不必填")}");
                 code.AppendLine("        /// </summary>");
-                code.AppendLine($"        public {SwitchType(firstReq.DataType.ToLower())} {firstReq.DataName} {{ get; set; }}");
+                code.AppendLine($"        public {SwitchType(firstReq.DataType.ToLower())} {UpperFirst(firstReq.DataName)} {{ get; set; }}");
                 code.AppendLine();
             }
 
@@ -109,7 +122,7 @@ namespace Tool
 
             foreach (var item in root.Data.PLists.Where(x => x.DataName != "ROOT" && x.DataName != firstReq.DataName))
             {
-                GetJdParamStereoscopic(item, root.Data.PLists, className, "        ", ref code);
+                GetJdParamStereoscopic(item, root.Data.PLists, className, "        ", true, ref code);
             }
 
             code.AppendLine("    }");
@@ -129,7 +142,7 @@ namespace Tool
                 code.AppendLine("    {");
                 foreach (var item in root.Data.SLists.Where(x => x.ParentId == firstData.NodeId))
                 {
-                    GetJdParamStereoscopic(item, root.Data.SLists, className, "        ", ref code);
+                    GetJdParamStereoscopic(item, root.Data.SLists, className, "        ", false, ref code);
                 }
                 code.AppendLine("    }");
             }
@@ -148,12 +161,16 @@ namespace Tool
             JdPlist[] all,
             string className,
             string spacing,
+            bool isRequest,
             ref StringBuilder code)
         {
             code.AppendLine($"{spacing}/// <summary>");
             code.AppendLine($"{spacing}/// 描述：{item.Description}");
-            code.AppendLine($"{spacing}/// 必填：{item.IsRequired}");
             code.AppendLine($"{spacing}/// 例如：{item.SampleValue}");
+            if (isRequest)
+            {
+                code.AppendLine($"{spacing}/// {(item.IsRequired.Trim() == "true" ? "必填" : "不必填")}");
+            }
             code.AppendLine($"{spacing}/// </summary>");
 
             var currentNodes = all.Where(x => x.ParentId == item.NodeId).ToArray();
@@ -170,13 +187,13 @@ namespace Tool
                 code.AppendLine($"{spacing}{{");
                 foreach (var that in currentNodes)
                 {
-                    GetJdParamStereoscopic(that, all, className, spacing + "    ", ref code);
+                    GetJdParamStereoscopic(that, all, className, spacing + "    ", isRequest, ref code);
                 }
                 code.AppendLine($"{spacing}}}");
             }
             else
             {
-                code.AppendLine($"{spacing}public {SwitchType(item.DataType.ToLower())} {item.DataName} {{ get; set; }}");
+                code.AppendLine($"{spacing}public {SwitchType(item.DataType.ToLower())} {UpperFirst(item.DataName)} {{ get; set; }}");
             }
         }
 

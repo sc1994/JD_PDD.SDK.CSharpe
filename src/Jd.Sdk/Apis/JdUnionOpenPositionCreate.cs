@@ -6,6 +6,7 @@ namespace Jd.Sdk.Apis
     /// 创建推广位【申请】--请求参数
     /// 工具商媒体帮助多个子站长ID批量创建推广位，每个联盟ID最多创建1万个推广位。其中业务参数key需要由子站长进入联盟官网-推广管理-API权限管理中获取， 有效期60天。需向cps-qxsq@jd.com申请权限。
     /// jd.union.open.position.create
+    /// https://union.jd.com/openplatform/api/655
     /// </summary>
     public class JdUnionOpenPositionCreateRequest : JdBaseRequest
     {
@@ -22,40 +23,40 @@ namespace Jd.Sdk.Apis
 
         /// <summary>
         /// 描述：需要创建的目标联盟id
-        /// 必填：true
         /// 例如：10000618
+        /// 必填
         /// </summary>
-        public long unionId { get; set; }
+        public long UnionId { get; set; }
         /// <summary>
         /// 描述：目标联盟ID对应的授权key，在联盟推广管理页领取
-        /// 必填：true
         /// 例如：
+        /// 必填
         /// </summary>
-        public string key { get; set; }
+        public string Key { get; set; }
         /// <summary>
         /// 描述：1：cps推广位  2：cpc推广位
-        /// 必填：true
         /// 例如：1
+        /// 必填
         /// </summary>
-        public int unionType { get; set; }
+        public int UnionType { get; set; }
         /// <summary>
         /// 描述：站点类型 1网站推广位2.APP推广位3.社交媒体推广位4.聊天工具推广位5.二维码推广
-        /// 必填：true
         /// 例如：4
+        /// 必填
         /// </summary>
-        public int type { get; set; }
+        public int Type { get; set; }
         /// <summary>
         /// 描述：推广位名称集合，英文,分割；上限50
-        /// 必填：true
         /// 例如：
+        /// 必填
         /// </summary>
-        public string[] spaceNameList { get; set; }
+        public string[] SpaceNameList { get; set; }
         /// <summary>
         /// 描述：站点ID，即网站ID/app ID/snsID ,当type传入4以外的值时，siteId为必填
-        /// 必填：false
         /// 例如：61800001
+        /// 不必填
         /// </summary>
-        public long siteId { get; set; }
+        public long SiteId { get; set; }
     }
 
 
@@ -69,28 +70,24 @@ namespace Jd.Sdk.Apis
     {
         /// <summary>
         /// 描述：推广位结果集合
-        /// 必填：true
         /// 例如：&quot;test4&quot;: 6186666082
         /// </summary>
-        public System.Collections.Generic.Dictionary<string, object> resultList { get; set; }
+        public System.Collections.Generic.Dictionary<string, object> ResultList { get; set; }
         /// <summary>
         /// 描述：站点ID
-        /// 必填：true
         /// 例如：1
         /// </summary>
-        public long siteId { get; set; }
+        public long SiteId { get; set; }
         /// <summary>
         /// 描述：联盟类型
-        /// 必填：true
         /// 例如：4
         /// </summary>
-        public long type { get; set; }
+        public long Type { get; set; }
         /// <summary>
         /// 描述：联盟ID
-        /// 必填：true
         /// 例如：618618
         /// </summary>
-        public long unionId { get; set; }
+        public long UnionId { get; set; }
     }
 }
 

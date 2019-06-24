@@ -6,6 +6,7 @@ namespace Jd.Sdk.Apis
     /// 优惠券领取情况查询接口【申请】--请求参数
     /// 通过领券链接查询优惠券的平台、面额、期限、可用状态、剩余数量等详细信息，通常用于和商品信息一起展示优惠券券信息。需向cps-qxsq@jd.com申请权限。
     /// jd.union.open.coupon.query
+    /// https://union.jd.com/openplatform/api/627
     /// </summary>
     public class JdUnionOpenCouponQueryRequest : JdBaseRequest
     {
@@ -17,14 +18,14 @@ namespace Jd.Sdk.Apis
 
         protected override string ParamName => "couponUrls";
 
-        protected override object Param => couponUrls;
+        protected override object Param => CouponUrls;
 
         /// <summary>
         /// 描述：优惠券链接集合；上限10（GET请求）；上限50（POST请求或SDK调用）
-        /// 必填：true
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
+        /// 必填
         /// </summary>
-        public string[] couponUrls { get; set; }
+        public string[] CouponUrls { get; set; }
 
         public async Task<JdBaseResponse<JdUnionOpenCouponQueryResponse[]>> InvokeAsync()
             => await PostAsync<JdBaseResponse<JdUnionOpenCouponQueryResponse[]>>();
@@ -42,70 +43,59 @@ namespace Jd.Sdk.Apis
     {
         /// <summary>
         /// 描述：券领取结束时间(时间戳，毫秒)
-        /// 必填：true
         /// 例如：1532966460000
         /// </summary>
-        public long takeEndTime { get; set; }
+        public long TakeEndTime { get; set; }
         /// <summary>
         /// 描述：券领取开始时间(时间戳，毫秒)
-        /// 必填：true
         /// 例如：1531065600000
         /// </summary>
-        public long takeBeginTime { get; set; }
+        public long TakeBeginTime { get; set; }
         /// <summary>
         /// 描述：券剩余张数
-        /// 必填：true
         /// 例如：9990
         /// </summary>
-        public long remainNum { get; set; }
+        public long RemainNum { get; set; }
         /// <summary>
         /// 描述：券有效状态
-        /// 必填：true
         /// 例如：是
         /// </summary>
-        public string yn { get; set; }
+        public string Yn { get; set; }
         /// <summary>
         /// 描述：券总张数
-        /// 必填：true
         /// 例如：10000
         /// </summary>
-        public long num { get; set; }
+        public long Num { get; set; }
         /// <summary>
         /// 描述：券消费限额
-        /// 必填：true
         /// 例如：15
         /// </summary>
-        public double quota { get; set; }
+        public double Quota { get; set; }
         /// <summary>
         /// 描述：券链接
-        /// 必填：true
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXXXXXX
         /// </summary>
-        public string link { get; set; }
+        public string Link { get; set; }
         /// <summary>
         /// 描述：券面额
-        /// 必填：true
         /// 例如：10
         /// </summary>
-        public double discount { get; set; }
+        public double Discount { get; set; }
         /// <summary>
         /// 描述：券有效使用开始时间(时间戳，毫秒)
-        /// 必填：true
         /// 例如：1531065600000
         /// </summary>
-        public long beginTime { get; set; }
+        public long BeginTime { get; set; }
         /// <summary>
         /// 描述：券有效使用结束时间(时间戳，毫秒)
-        /// 必填：true
         /// 例如：1533052799000
         /// </summary>
-        public long endTime { get; set; }
+        public long EndTime { get; set; }
         /// <summary>
         /// 描述：券使用平台
-        /// 必填：true
         /// 例如：全平台
         /// </summary>
-        public string platform { get; set; }
+        public string Platform { get; set; }
     }
 }
 

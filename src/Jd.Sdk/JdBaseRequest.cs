@@ -7,6 +7,7 @@ using System.Web;
 using Common;
 using Flurl.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Jd.Sdk
 {
@@ -86,7 +87,12 @@ namespace Jd.Sdk
         /// json内容的业务数据
         /// </summary>
         private string param_json
-            => JsonConvert.SerializeObject(new Dictionary<string, object> { { ParamName, Param } });
+            => JsonConvert.SerializeObject(
+                new Dictionary<string, object> { { ParamName, Param } },
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
 
         private string GetUrlParams()
         {

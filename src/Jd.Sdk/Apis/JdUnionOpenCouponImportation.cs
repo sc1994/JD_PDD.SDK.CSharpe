@@ -6,6 +6,7 @@ namespace Jd.Sdk.Apis
     /// 优惠券导入【申请】--请求参数
     /// 将商品SKUID和领券链接导入，之后其他媒体均可通过联盟开放平台搜索到该商品和优惠券。通常适用于招商媒体。需向cps-qxsq@jd.com申请权限。
     /// jd.union.open.coupon.importation
+    /// https://union.jd.com/openplatform/api/696
     /// </summary>
     public class JdUnionOpenCouponImportationRequest : JdBaseRequest
     {
@@ -22,16 +23,16 @@ namespace Jd.Sdk.Apis
 
         /// <summary>
         /// 描述：商品ID
-        /// 必填：true
         /// 例如：23335727609
+        /// 必填
         /// </summary>
-        public long skuId { get; set; }
+        public long SkuId { get; set; }
         /// <summary>
         /// 描述：优惠券链接
-        /// 必填：true
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
+        /// 必填
         /// </summary>
-        public string couponLink { get; set; }
+        public string CouponLink { get; set; }
     }
 
 
