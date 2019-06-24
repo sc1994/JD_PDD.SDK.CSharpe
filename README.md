@@ -12,7 +12,10 @@
 
 针对需要补充的系统参数，在继承`BaseRequest`之后，会有未实现的异常。
 
-生成注释完善的请求响应实体，统一使用方法名的规范命名规则
+生成注释完善的请求响应实体，统一使用方法名的规范命名规则  
+
+较为完善的单元测试（部分接口需要权限申请，或者一些特殊情况的，添加不满足生产的断言）
+![image](https://raw.githubusercontent.com/sc1994/JD_PDD.SDK.CSharpe/master/static/1561374793(1).jpg)
 
 ```c#
 /// <summary>
@@ -100,6 +103,11 @@ public class JdUnionOpenOrderQueryResponse
 ## 更新日志
 
 ```txt
+2019年6月24日 Jd 17个接口通过单元测试
+            |
+            .
+            |
+            v
 2019年6月21日 优化调用代码，添加单元测试
             |
             .
