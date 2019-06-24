@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -22,17 +23,19 @@ namespace Jd.Sdk.Apis
             => await PostAsync<JdBaseResponse<JdUnionOpenCategoryGoodsGetResponse[]>>();
 
         /// <summary>
+        /// 必填
         /// 描述：父类目id(一级父类目为0) 
         /// 例如：1342
-        /// 必填
         /// </summary>
-        public int ParentId { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? ParentId { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：类目级别(类目级别 0，1，2 代表一、二、三级类目)
         /// 例如：2
-        /// 必填
         /// </summary>
-        public int Grade { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? Grade { get; set; }
     }
 
 
@@ -48,7 +51,7 @@ namespace Jd.Sdk.Apis
         /// 描述：类目Id
         /// 例如：1350
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
         /// <summary>
         /// 描述：类目名称
         /// 例如：针织衫
@@ -58,12 +61,12 @@ namespace Jd.Sdk.Apis
         /// 描述：类目级别(类目级别 0，1，2 代表一、二、三级类目)
         /// 例如：2
         /// </summary>
-        public int Grade { get; set; }
+        public int? Grade { get; set; }
         /// <summary>
         /// 描述：父类目Id
         /// 例如：1342
         /// </summary>
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
     }
 }
 

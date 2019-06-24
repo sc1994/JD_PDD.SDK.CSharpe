@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -22,16 +23,18 @@ namespace Jd.Sdk.Apis
             => await PostAsync<JdBaseResponse<JdUnionOpenGoodsBigfieldQueryResponse[]>>();
 
         /// <summary>
+        /// 必填
         /// 描述：skuId集合
         /// 例如：29357345299
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long[] SkuIds { get; set; }
         /// <summary>
+        /// 不必填
         /// 描述：查询域集合，不填写则查询全部
         /// 例如：&quot;categoryInfo&quot;,&quot;imageInfo&quot;,&quot;baseBigFieldInfo&quot;,&quot;bookBigFieldInfo&quot;,&quot;videoBigFieldInfo&quot;
-        /// 不必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string[] Fields { get; set; }
     }
 
@@ -48,7 +51,7 @@ namespace Jd.Sdk.Apis
         /// 描述：skuId
         /// 例如：1111
         /// </summary>
-        public long SkuId { get; set; }
+        public long? SkuId { get; set; }
         /// <summary>
         /// 描述：商品名称
         /// 例如：手机
@@ -58,17 +61,17 @@ namespace Jd.Sdk.Apis
         /// 描述：目录信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsBigfieldQuery_categoryinfo categoryInfo { get; set; }
+        public JdUnionOpenGoodsBigfieldQuery_Categoryinfo CategoryInfo { get; set; }
         /// <summary>
         /// 目录信息
         /// </summary>
-        public class JdUnionOpenGoodsBigfieldQuery_categoryinfo
+        public class JdUnionOpenGoodsBigfieldQuery_Categoryinfo
         {
             /// <summary>
             /// 描述：一级类目ID
             /// 例如：6144
             /// </summary>
-            public long Cid1 { get; set; }
+            public long? Cid1 { get; set; }
             /// <summary>
             /// 描述：一级类目名称
             /// 例如：珠宝首饰
@@ -78,7 +81,7 @@ namespace Jd.Sdk.Apis
             /// 描述：二级类目ID
             /// 例如：12041
             /// </summary>
-            public long Cid2 { get; set; }
+            public long? Cid2 { get; set; }
             /// <summary>
             /// 描述：二级类目名称
             /// 例如：木手串/把件
@@ -88,7 +91,7 @@ namespace Jd.Sdk.Apis
             /// 描述：三级类目ID
             /// 例如：12052
             /// </summary>
-            public long Cid3 { get; set; }
+            public long? Cid3 { get; set; }
             /// <summary>
             /// 描述：三级类目名称
             /// 例如：其他
@@ -99,21 +102,21 @@ namespace Jd.Sdk.Apis
         /// 描述：图片信心
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsBigfieldQuery_imageinfo imageInfo { get; set; }
+        public JdUnionOpenGoodsBigfieldQuery_Imageinfo ImageInfo { get; set; }
         /// <summary>
         /// 图片信心
         /// </summary>
-        public class JdUnionOpenGoodsBigfieldQuery_imageinfo
+        public class JdUnionOpenGoodsBigfieldQuery_Imageinfo
         {
             /// <summary>
             /// 描述：图片合集
             /// 例如：
             /// </summary>
-            public JdUnionOpenGoodsBigfieldQuery_urlinfo[] imageList { get; set; }
+            public JdUnionOpenGoodsBigfieldQuery_Urlinfo[] ImageList { get; set; }
             /// <summary>
             /// 图片合集
             /// </summary>
-            public class JdUnionOpenGoodsBigfieldQuery_urlinfo
+            public class JdUnionOpenGoodsBigfieldQuery_Urlinfo
             {
                 /// <summary>
                 /// 描述： 图片链接地址，第一个图片链接为主图链接
@@ -126,11 +129,11 @@ namespace Jd.Sdk.Apis
         /// 描述：基础大字段信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsBigfieldQuery_basebigfieldinfo baseBigFieldInfo { get; set; }
+        public JdUnionOpenGoodsBigfieldQuery_Basebigfieldinfo BaseBigFieldInfo { get; set; }
         /// <summary>
         /// 基础大字段信息
         /// </summary>
-        public class JdUnionOpenGoodsBigfieldQuery_basebigfieldinfo
+        public class JdUnionOpenGoodsBigfieldQuery_Basebigfieldinfo
         {
             /// <summary>
             /// 描述：商品介绍
@@ -152,11 +155,11 @@ namespace Jd.Sdk.Apis
         /// 描述：图书大字段信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsBigfieldQuery_bookbigfieldinfo bookBigFieldInfo { get; set; }
+        public JdUnionOpenGoodsBigfieldQuery_Bookbigfieldinfo BookBigFieldInfo { get; set; }
         /// <summary>
         /// 图书大字段信息
         /// </summary>
-        public class JdUnionOpenGoodsBigfieldQuery_bookbigfieldinfo
+        public class JdUnionOpenGoodsBigfieldQuery_Bookbigfieldinfo
         {
             /// <summary>
             /// 描述：媒体评论
@@ -213,11 +216,11 @@ namespace Jd.Sdk.Apis
         /// 描述：影音大字段信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsBigfieldQuery_videobigfieldinfo videoBigFieldInfo { get; set; }
+        public JdUnionOpenGoodsBigfieldQuery_Videobigfieldinfo VideoBigFieldInfo { get; set; }
         /// <summary>
         /// 影音大字段信息
         /// </summary>
-        public class JdUnionOpenGoodsBigfieldQuery_videobigfieldinfo
+        public class JdUnionOpenGoodsBigfieldQuery_Videobigfieldinfo
         {
             /// <summary>
             /// 描述：评论

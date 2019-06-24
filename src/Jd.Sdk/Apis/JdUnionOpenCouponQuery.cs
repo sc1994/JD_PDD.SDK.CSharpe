@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -21,9 +22,9 @@ namespace Jd.Sdk.Apis
         protected override object Param => CouponUrls;
 
         /// <summary>
+        /// 必填
         /// 描述：优惠券链接集合；上限10（GET请求）；上限50（POST请求或SDK调用）
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
-        /// 必填
         /// </summary>
         public string[] CouponUrls { get; set; }
 
@@ -45,17 +46,17 @@ namespace Jd.Sdk.Apis
         /// 描述：券领取结束时间(时间戳，毫秒)
         /// 例如：1532966460000
         /// </summary>
-        public long TakeEndTime { get; set; }
+        public long? TakeEndTime { get; set; }
         /// <summary>
         /// 描述：券领取开始时间(时间戳，毫秒)
         /// 例如：1531065600000
         /// </summary>
-        public long TakeBeginTime { get; set; }
+        public long? TakeBeginTime { get; set; }
         /// <summary>
         /// 描述：券剩余张数
         /// 例如：9990
         /// </summary>
-        public long RemainNum { get; set; }
+        public long? RemainNum { get; set; }
         /// <summary>
         /// 描述：券有效状态
         /// 例如：是
@@ -65,7 +66,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券总张数
         /// 例如：10000
         /// </summary>
-        public long Num { get; set; }
+        public long? Num { get; set; }
         /// <summary>
         /// 描述：券消费限额
         /// 例如：15
@@ -85,12 +86,12 @@ namespace Jd.Sdk.Apis
         /// 描述：券有效使用开始时间(时间戳，毫秒)
         /// 例如：1531065600000
         /// </summary>
-        public long BeginTime { get; set; }
+        public long? BeginTime { get; set; }
         /// <summary>
         /// 描述：券有效使用结束时间(时间戳，毫秒)
         /// 例如：1533052799000
         /// </summary>
-        public long EndTime { get; set; }
+        public long? EndTime { get; set; }
         /// <summary>
         /// 描述：券使用平台
         /// 例如：全平台

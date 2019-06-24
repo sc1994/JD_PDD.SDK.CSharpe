@@ -3,7 +3,7 @@
     /// <summary>
     /// 响应基类
     /// </summary>
-    public abstract class JdBaseResponse
+    public class JdBaseResponse
     {
         public string ApiCodeEnum { get; set; } = string.Empty;
 

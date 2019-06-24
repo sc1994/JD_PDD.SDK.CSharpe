@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -21,9 +22,9 @@ namespace Jd.Sdk.Apis
         protected override object Param => SkuIds;
 
         /// <summary>
+        /// 必填
         /// 描述：京东skuID串，逗号分割，最多100个（非常重要 请大家关注：如果输入的sk串中某个skuID的商品不在推广中[就是没有佣金]，返回结果中不会包含这个商品的信息
         /// 例如：5225346,7275691
-        /// 必填
         /// </summary>
         public string SkuIds { get; set; }
 
@@ -45,7 +46,7 @@ namespace Jd.Sdk.Apis
         /// 描述：商品ID
         /// 例如：61861866
         /// </summary>
-        public long SkuId { get; set; }
+        public long? SkuId { get; set; }
         /// <summary>
         /// 描述：商品单价即京东价
         /// 例如：89
@@ -60,17 +61,17 @@ namespace Jd.Sdk.Apis
         /// 描述：推广结束日期(时间戳，毫秒)
         /// 例如：32472115200000
         /// </summary>
-        public long EndDate { get; set; }
+        public long? EndDate { get; set; }
         /// <summary>
         /// 描述：是否支持运费险(1:是,0:否)
         /// 例如：0
         /// </summary>
-        public int IsFreeFreightRisk { get; set; }
+        public int? IsFreeFreightRisk { get; set; }
         /// <summary>
         /// 描述：是否包邮(1:是,0:否,2:自营商品遵从主站包邮规则)
         /// 例如：1
         /// </summary>
-        public int IsFreeShipping { get; set; }
+        public int? IsFreeShipping { get; set; }
         /// <summary>
         /// 描述：无线佣金比例
         /// 例如：25
@@ -90,7 +91,7 @@ namespace Jd.Sdk.Apis
         /// 描述：商家ID
         /// 例如：16815866
         /// </summary>
-        public long Vid { get; set; }
+        public long? Vid { get; set; }
         /// <summary>
         /// 描述：一级类目名称
         /// 例如：母婴
@@ -110,12 +111,12 @@ namespace Jd.Sdk.Apis
         /// 描述：是否秒杀(1:是,0:否)
         /// 例如：0
         /// </summary>
-        public int IsSeckill { get; set; }
+        public int? IsSeckill { get; set; }
         /// <summary>
         /// 描述：二级类目ID
         /// 例如：11842
         /// </summary>
-        public long Cid2 { get; set; }
+        public long? Cid2 { get; set; }
         /// <summary>
         /// 描述：三级类目名称
         /// 例如：裙子
@@ -125,22 +126,22 @@ namespace Jd.Sdk.Apis
         /// 描述：30天引单数量 
         /// 例如：703
         /// </summary>
-        public long InOrderCount { get; set; }
+        public long? InOrderCount { get; set; }
         /// <summary>
         /// 描述：三级类目ID
         /// 例如：11225
         /// </summary>
-        public long Cid3 { get; set; }
+        public long? Cid3 { get; set; }
         /// <summary>
         /// 描述：店铺ID
         /// 例如：168168
         /// </summary>
-        public long ShopId { get; set; }
+        public long? ShopId { get; set; }
         /// <summary>
         /// 描述：是否自营(1:是,0:否)
         /// 例如：1
         /// </summary>
-        public int IsJdSale { get; set; }
+        public int? IsJdSale { get; set; }
         /// <summary>
         /// 描述：商品名称
         /// 例如：童装女童连衣裙儿童裙子大童女装2018夏季新品公主裙 横条纹款 130码（正码）
@@ -150,12 +151,12 @@ namespace Jd.Sdk.Apis
         /// 描述：推广开始日期（时间戳，毫秒）
         /// 例如：1529251200000
         /// </summary>
-        public long StartDate { get; set; }
+        public long? StartDate { get; set; }
         /// <summary>
         /// 描述：一级类目ID
         /// 例如：1319
         /// </summary>
-        public long Cid { get; set; }
+        public long? Cid { get; set; }
     }
 }
 

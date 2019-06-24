@@ -84,6 +84,12 @@ namespace Jd.Sdk
         private readonly string _signMethod = "md5";
 
         /// <summary>
+        /// 调试信息
+        /// </summary>
+        [JsonIgnore]
+        public object DebugInfo { get; private set; }
+
+        /// <summary>
         /// json内容的业务数据
         /// </summary>
         private string param_json
@@ -137,11 +143,24 @@ namespace Jd.Sdk
                 var flag = JsonConvert.DeserializeObject<Dictionary<string, JdResponseResultEntity>>(@string).First();
                 var value = flag.Value;
                 if (value.Code != "0") throw new Exception(@string);
+                DebugInfo = new
+                {
+                    Url = url,
+                    Request = param_json,
+                    Response = @string
+                };
                 return JsonConvert.DeserializeObject<TResponse>(value.Result);
             }
             catch (Exception ex)
             {
-                throw new Exception($"{@string}\r\n-----------------------------\r\n{ex}");
+                DebugInfo = new
+                {
+                    Url = url,
+                    Request = param_json,
+                    ex
+                };
+                //throw new Exception($"{@string}\r\n-----------------------------\r\n{ex}");
+                return default;
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -22,47 +23,54 @@ namespace Jd.Sdk.Apis
             => await PostAsync<JdBaseResponse<JdUnionOpenPromotionByunionidGetResponse>>();
 
         /// <summary>
+        /// 必填
         /// 描述：推广物料链接，建议链接使用微Q前缀，能较好适配微信手Q页面
         /// 例如：https://wqitem.jd.com/item/view?sku=23484023378
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string MaterialId { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：目标推客的联盟ID
         /// 例如：10000618
-        /// 必填
         /// </summary>
-        public long UnionId { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public long? UnionId { get; set; }
         /// <summary>
+        /// 不必填
         /// 描述：新增推广位id （不填的话，为其默认生成一个唯一此接口推广位-名称：微信手Q短链接）
         /// 例如：6
-        /// 不必填
         /// </summary>
-        public long PositionId { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public long? PositionId { get; set; }
         /// <summary>
+        /// 不必填
         /// 描述：子帐号身份标识，格式为子站长ID_子站长网站ID_子站长推广位ID
         /// 例如：618_618_6018
-        /// 不必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Pid { get; set; }
         /// <summary>
+        /// 不必填
         /// 描述：优惠券领取链接，在使用优惠券、商品二合一功能时入参，且materialId须为商品详情页链接
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
-        /// 不必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string CouponUrl { get; set; }
         /// <summary>
+        /// 不必填
         /// 描述：子联盟ID（需要联系运营开通权限才能拿到数据）
         /// 例如：618_18_c35***e6a
-        /// 不必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SubUnionId { get; set; }
         /// <summary>
+        /// 不必填
         /// 描述：转链类型，1：长链， 2 ：短链 ，3： 长链+短链，默认短链
         /// 例如：1
-        /// 不必填
         /// </summary>
-        public int ChainType { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? ChainType { get; set; }
     }
 
 

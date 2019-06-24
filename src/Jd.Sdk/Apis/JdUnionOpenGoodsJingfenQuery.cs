@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -22,34 +23,39 @@ namespace Jd.Sdk.Apis
             => await PostAsync<JdBaseResponse<JdUnionOpenGoodsJingfenQueryResponse[]>>();
 
         /// <summary>
+        /// 必填
         /// 描述：1-好券商品,2-京粉APP-jingdong.超级大卖场,3-小程序-jingdong.好券商品,4-京粉APP-jingdong.主题聚惠1-jingdong.服装运动,5-京粉APP-jingdong.主题聚惠2-jingdong.精选家电,6-京粉APP-jingdong.主题聚惠3-jingdong.超市,7-京粉APP-jingdong.主题聚惠4-jingdong.居家生活,10-9.9专区,11-品牌好货-jingdong.潮流范儿,12-品牌好货-jingdong.精致生活,13-品牌好货-jingdong.数码先锋,14-品牌好货-jingdong.品质家电,15-京仓配送,16-公众号-jingdong.好券商品,17-公众号-jingdong.9.9,18-公众号-jingdong.京东配送
         /// 例如：11
-        /// 必填
         /// </summary>
-        public int EliteId { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? EliteId { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：页码
         /// 例如：1
-        /// 必填
         /// </summary>
-        public int PageIndex { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? PageIndex { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：每页数量，默认20，上限50
         /// 例如：20
-        /// 必填
         /// </summary>
-        public int PageSize { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? PageSize { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：排序字段(price：单价, commissionShare：佣金比例, commission：佣金， inOrderCount30DaysSku：sku维度30天引单量，comments：评论数，goodComments：好评数)
         /// 例如：price
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SortName { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：asc,desc升降序,默认降序
         /// 例如：desc
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Sort { get; set; }
     }
 
@@ -66,17 +72,17 @@ namespace Jd.Sdk.Apis
         /// 描述：类目信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_categoryinfo categoryInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Categoryinfo CategoryInfo { get; set; }
         /// <summary>
         /// 类目信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_categoryinfo
+        public class JdUnionOpenGoodsJingfenQuery_Categoryinfo
         {
             /// <summary>
             /// 描述：一级类目ID
             /// 例如：6144
             /// </summary>
-            public long Cid1 { get; set; }
+            public long? Cid1 { get; set; }
             /// <summary>
             /// 描述：一级类目名称
             /// 例如：珠宝首饰
@@ -86,7 +92,7 @@ namespace Jd.Sdk.Apis
             /// 描述： 二级类目ID
             /// 例如：12041
             /// </summary>
-            public long Cid2 { get; set; }
+            public long? Cid2 { get; set; }
             /// <summary>
             /// 描述：二级类目名称
             /// 例如：木手串/把件
@@ -96,7 +102,7 @@ namespace Jd.Sdk.Apis
             /// 描述：三级类目ID
             /// 例如：12052
             /// </summary>
-            public long Cid3 { get; set; }
+            public long? Cid3 { get; set; }
             /// <summary>
             /// 描述：三级类目名称
             /// 例如：其他
@@ -107,16 +113,16 @@ namespace Jd.Sdk.Apis
         /// 描述：评论数
         /// 例如：999
         /// </summary>
-        public long Comments { get; set; }
+        public long? Comments { get; set; }
         /// <summary>
         /// 描述：佣金信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_commissioninfo commissionInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Commissioninfo CommissionInfo { get; set; }
         /// <summary>
         /// 佣金信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_commissioninfo
+        public class JdUnionOpenGoodsJingfenQuery_Commissioninfo
         {
             /// <summary>
             /// 描述：佣金
@@ -133,27 +139,27 @@ namespace Jd.Sdk.Apis
         /// 描述：优惠券信息，返回内容为空说明该SKU无可用优惠券
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_couponinfo couponInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Couponinfo CouponInfo { get; set; }
         /// <summary>
         /// 优惠券信息，返回内容为空说明该SKU无可用优惠券
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_couponinfo
+        public class JdUnionOpenGoodsJingfenQuery_Couponinfo
         {
             /// <summary>
             /// 描述：优惠券合集
             /// 例如：
             /// </summary>
-            public JdUnionOpenGoodsJingfenQuery_coupon[] couponList { get; set; }
+            public JdUnionOpenGoodsJingfenQuery_Coupon[] CouponList { get; set; }
             /// <summary>
             /// 优惠券合集
             /// </summary>
-            public class JdUnionOpenGoodsJingfenQuery_coupon
+            public class JdUnionOpenGoodsJingfenQuery_Coupon
             {
                 /// <summary>
                 /// 描述：券种类 (优惠券种类：0 - 全品类，1 - 限品类（自营商品），2 - 限店铺，3 - 店铺限商品券)
                 /// 例如：3
                 /// </summary>
-                public int BindType { get; set; }
+                public int? BindType { get; set; }
                 /// <summary>
                 /// 描述：券面额
                 /// 例如：30
@@ -168,7 +174,7 @@ namespace Jd.Sdk.Apis
                 /// 描述：券使用平台 (平台类型：0 - 全平台券，1 - 限平台券)
                 /// 例如：0
                 /// </summary>
-                public int PlatformType { get; set; }
+                public int? PlatformType { get; set; }
                 /// <summary>
                 /// 描述：券消费限额
                 /// 例如：39
@@ -178,22 +184,22 @@ namespace Jd.Sdk.Apis
                 /// 描述：领取开始时间(时间戳，毫秒)
                 /// 例如：1532921782000
                 /// </summary>
-                public long GetStartTime { get; set; }
+                public long? GetStartTime { get; set; }
                 /// <summary>
                 /// 描述：券领取结束时间(时间戳，毫秒)
                 /// 例如：1532921782000
                 /// </summary>
-                public long GetEndTime { get; set; }
+                public long? GetEndTime { get; set; }
                 /// <summary>
                 /// 描述：券有效使用开始时间(时间戳，毫秒)
                 /// 例如：1532921782000
                 /// </summary>
-                public long UseStartTime { get; set; }
+                public long? UseStartTime { get; set; }
                 /// <summary>
                 /// 描述：券有效使用结束时间(时间戳，毫秒)
                 /// 例如：1532921782000
                 /// </summary>
-                public long UseEndTime { get; set; }
+                public long? UseEndTime { get; set; }
             }
         }
         /// <summary>
@@ -205,21 +211,21 @@ namespace Jd.Sdk.Apis
         /// 描述：图片信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_imageinfo imageInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Imageinfo ImageInfo { get; set; }
         /// <summary>
         /// 图片信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_imageinfo
+        public class JdUnionOpenGoodsJingfenQuery_Imageinfo
         {
             /// <summary>
             /// 描述：图片合集
             /// 例如：
             /// </summary>
-            public JdUnionOpenGoodsJingfenQuery_urlinfo[] imageList { get; set; }
+            public JdUnionOpenGoodsJingfenQuery_Urlinfo[] ImageList { get; set; }
             /// <summary>
             /// 图片合集
             /// </summary>
-            public class JdUnionOpenGoodsJingfenQuery_urlinfo
+            public class JdUnionOpenGoodsJingfenQuery_Urlinfo
             {
                 /// <summary>
                 /// 描述：图片链接地址，第一个图片链接为主图链接
@@ -232,7 +238,7 @@ namespace Jd.Sdk.Apis
         /// 描述：30天引单数量
         /// 例如：6018
         /// </summary>
-        public long InOrderCount30Days { get; set; }
+        public long? InOrderCount30Days { get; set; }
         /// <summary>
         /// 描述：商品落地页
         /// 例如：item.jd.com/26898778009.html
@@ -242,11 +248,11 @@ namespace Jd.Sdk.Apis
         /// 描述：价格信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_priceinfo priceInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Priceinfo PriceInfo { get; set; }
         /// <summary>
         /// 价格信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_priceinfo
+        public class JdUnionOpenGoodsJingfenQuery_Priceinfo
         {
             /// <summary>
             /// 描述：无线价格
@@ -258,11 +264,11 @@ namespace Jd.Sdk.Apis
         /// 描述：店铺信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_shopinfo shopInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Shopinfo ShopInfo { get; set; }
         /// <summary>
         /// 店铺信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_shopinfo
+        public class JdUnionOpenGoodsJingfenQuery_Shopinfo
         {
             /// <summary>
             /// 描述：店铺名称（或供应商名称）
@@ -273,13 +279,13 @@ namespace Jd.Sdk.Apis
             /// 描述：店铺Id
             /// 例如：45619
             /// </summary>
-            public long ShopId { get; set; }
+            public long? ShopId { get; set; }
         }
         /// <summary>
         /// 描述：商品ID
         /// 例如：26898778009
         /// </summary>
-        public long SkuId { get; set; }
+        public long? SkuId { get; set; }
         /// <summary>
         /// 描述：商品名称
         /// 例如：便携式女士香水持久淡香小样 初见系列香水 遇见时光
@@ -289,12 +295,12 @@ namespace Jd.Sdk.Apis
         /// 描述：是否爆款，1：是，0：否
         /// 例如：1
         /// </summary>
-        public int IsHot { get; set; }
+        public int? IsHot { get; set; }
         /// <summary>
         /// 描述：spuid，其值为同款商品的主skuid
         /// 例如：3491692
         /// </summary>
-        public long Spuid { get; set; }
+        public long? Spuid { get; set; }
         /// <summary>
         /// 描述：品牌code
         /// 例如：7998
@@ -314,11 +320,11 @@ namespace Jd.Sdk.Apis
         /// 描述：拼购信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_pingouinfo pinGouInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Pingouinfo PinGouInfo { get; set; }
         /// <summary>
         /// 拼购信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_pingouinfo
+        public class JdUnionOpenGoodsJingfenQuery_Pingouinfo
         {
             /// <summary>
             /// 描述：拼购价格
@@ -329,7 +335,7 @@ namespace Jd.Sdk.Apis
             /// 描述：拼购成团所需人数
             /// 例如：2
             /// </summary>
-            public long PingouTmCount { get; set; }
+            public long? PingouTmCount { get; set; }
             /// <summary>
             /// 描述：拼购落地页url
             /// 例如：https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=35097232463&amp;from=cps
@@ -340,17 +346,17 @@ namespace Jd.Sdk.Apis
         /// 描述：资源信息
         /// 例如：
         /// </summary>
-        public JdUnionOpenGoodsJingfenQuery_resourceinfo resourceInfo { get; set; }
+        public JdUnionOpenGoodsJingfenQuery_Resourceinfo ResourceInfo { get; set; }
         /// <summary>
         /// 资源信息
         /// </summary>
-        public class JdUnionOpenGoodsJingfenQuery_resourceinfo
+        public class JdUnionOpenGoodsJingfenQuery_Resourceinfo
         {
             /// <summary>
             /// 描述：频道id
             /// 例如：11
             /// </summary>
-            public int EliteId { get; set; }
+            public int? EliteId { get; set; }
             /// <summary>
             /// 描述：频道名称
             /// 例如：品牌好货-潮流范儿
@@ -361,7 +367,7 @@ namespace Jd.Sdk.Apis
         /// 描述：30天引单数量(sku维度)
         /// 例如：100
         /// </summary>
-        public long InOrderCount30DaysSku { get; set; }
+        public long? InOrderCount30DaysSku { get; set; }
     }
 }
 

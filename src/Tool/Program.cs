@@ -34,6 +34,7 @@ namespace Tool
                     {
                         var apiName = className.Trim().Split(' ')[2].Replace("Request", "");
                         File.WriteAllLines($"../Jd.Sdk/Apis/{apiName}.cs", code);
+                        Console.WriteLine();
                         Console.WriteLine("[Fact]");
                         Console.WriteLine($"public async void Test_{apiName}()");
                         Console.WriteLine("{");
@@ -42,7 +43,7 @@ namespace Tool
                         Console.WriteLine("// todo 参数");
                         Console.WriteLine("};");
                         Console.WriteLine("var res = await req.InvokeAsync();");
-                        Console.WriteLine("_output.WriteLine(JsonConvert.SerializeObject(res, Formatting.Indented));");
+                        Console.WriteLine("_output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));");
                         Console.WriteLine("Assert.True(res.Code == 200);");
                         Console.WriteLine("}");
                     }
@@ -66,6 +67,7 @@ namespace Tool
             var className = string.Join("", root.Data.ApiName.Split('.').Select(UpperFirst));
             var code = new StringBuilder();
             code.AppendLine("using System.Threading.Tasks;");
+            code.AppendLine("using Newtonsoft.Json;");
             code.AppendLine();
             code.AppendLine("namespace Jd.Sdk.Apis");
             code.AppendLine("{");
@@ -97,11 +99,11 @@ namespace Tool
                 code.AppendLine($"        protected override object Param => {UpperFirst(firstReq.DataName)};");
                 code.AppendLine();
                 code.AppendLine("        /// <summary>");
+                code.AppendLine($"        /// {(firstReq.IsRequired.Trim() == "true" ? "必填" : "不必填")}");
                 code.AppendLine($"        /// 描述：{firstReq.Description.Trim()}");
                 code.AppendLine($"        /// 例如：{firstReq.SampleValue.Trim()}");
-                code.AppendLine($"        /// {(firstReq.IsRequired.Trim() == "true" ? "必填" : "不必填")}");
                 code.AppendLine("        /// </summary>");
-                code.AppendLine($"        public {SwitchType(firstReq.DataType.ToLower())} {UpperFirst(firstReq.DataName)} {{ get; set; }}");
+                code.AppendLine($"        public {SwitchType(firstReq.DataType)} {UpperFirst(firstReq.DataName)} {{ get; set; }}");
                 code.AppendLine();
             }
 
@@ -115,6 +117,10 @@ namespace Tool
                 isArray = firstData.DataType.EndsWith("[]")
                     ? $"<{className}Response[]>"
                     : $"<{className}Response>";
+            }
+            else
+            {
+                
             }
             code.AppendLine($"        public async Task<{isPage}{isArray}> InvokeAsync()");
             code.AppendLine($"            => await PostAsync<{isPage}{isArray}>();");
@@ -165,12 +171,12 @@ namespace Tool
             ref StringBuilder code)
         {
             code.AppendLine($"{spacing}/// <summary>");
-            code.AppendLine($"{spacing}/// 描述：{item.Description}");
-            code.AppendLine($"{spacing}/// 例如：{item.SampleValue}");
             if (isRequest)
             {
                 code.AppendLine($"{spacing}/// {(item.IsRequired.Trim() == "true" ? "必填" : "不必填")}");
             }
+            code.AppendLine($"{spacing}/// 描述：{item.Description}");
+            code.AppendLine($"{spacing}/// 例如：{item.SampleValue}");
             code.AppendLine($"{spacing}/// </summary>");
 
             var currentNodes = all.Where(x => x.ParentId == item.NodeId).ToArray();
@@ -179,11 +185,11 @@ namespace Tool
             {
                 var tempName = item.DataType.Replace("[]", "").ToLower();
                 var tempSymbol = item.DataType.EndsWith("[]") ? "[]" : "";
-                code.AppendLine($"{spacing}public {className}_{tempName}{tempSymbol} {item.DataName} {{ get; set; }}");
+                code.AppendLine($"{spacing}public {className}_{UpperFirst(tempName)}{tempSymbol} {UpperFirst(item.DataName)} {{ get; set; }}");
                 code.AppendLine($"{spacing}/// <summary>");
                 code.AppendLine($"{spacing}/// {item.Description}");
                 code.AppendLine($"{spacing}/// </summary>");
-                code.AppendLine($"{spacing}public class {className}_{tempName}");
+                code.AppendLine($"{spacing}public class {className}_{UpperFirst(tempName)}");
                 code.AppendLine($"{spacing}{{");
                 foreach (var that in currentNodes)
                 {
@@ -193,7 +199,11 @@ namespace Tool
             }
             else
             {
-                code.AppendLine($"{spacing}public {SwitchType(item.DataType.ToLower())} {UpperFirst(item.DataName)} {{ get; set; }}");
+                if (isRequest)
+                {
+                    code.AppendLine($"{spacing}[JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]");
+                }
+                code.AppendLine($"{spacing}public {SwitchType(item.DataType)} {UpperFirst(item.DataName)} {{ get; set; }}");
             }
         }
 
@@ -280,7 +290,7 @@ namespace Tool
             }
             else
             {
-                code.AppendLine($"public {SwitchType(item.paramType.ToLower())} {item.paramName} {{ get; set; }}");
+                code.AppendLine($"public {SwitchType(item.paramType)} {item.paramName} {{ get; set; }}");
             }
         }
 
@@ -291,12 +301,16 @@ namespace Tool
 
         static string SwitchType(string type)
         {
-            switch (type)
+            switch (type.ToLower())
             {
-                case "boolean": return "bool";
-                case "integer": return "int";
+                case "bool":
+                case "boolean": return "bool?";
+                case "int":
+                case "integer": return "int?";
+                case "long": return "long?";
+                case "doubel": return "doubel?";
                 case "map": return "System.Collections.Generic.Dictionary<string, object>";
-                default: return type;
+                default: return type.ToLower();
             }
         }
     }

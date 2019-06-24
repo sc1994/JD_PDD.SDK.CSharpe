@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -22,16 +23,18 @@ namespace Jd.Sdk.Apis
             => await PostAsync<JdBaseResponse<JdUnionOpenGoodsLinkQueryResponse[]>>();
 
         /// <summary>
+        /// 必填
         /// 描述：链接
         /// 例如：https://item.jd.com/product/12473772.html
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Url { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：子联盟ID（需要联系运营开通权限才能拿到数据）
         /// 例如：618_18_c35***e6a
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SubUnionId { get; set; }
     }
 
@@ -48,12 +51,12 @@ namespace Jd.Sdk.Apis
         /// 描述：skuId
         /// 例如：12473772
         /// </summary>
-        public long SkuId { get; set; }
+        public long? SkuId { get; set; }
         /// <summary>
         /// 描述：productId
         /// 例如：11484833
         /// </summary>
-        public long ProductId { get; set; }
+        public long? ProductId { get; set; }
         /// <summary>
         /// 描述：图片集，逗号','分割，首张为主图
         /// 例如：http://img14.360buyimg.com/ads/jfs/t25954/302/2427470833/110079/25edd6bf/5be5569aN4cab581d.jpg,http://img14.360buyimg.com/ads/jfs/t29152/135/448393735/356276/f377ac44/5bf3de8cNaec7256a.jpg
@@ -93,7 +96,7 @@ namespace Jd.Sdk.Apis
         /// 描述：30天引单量
         /// 例如：3000
         /// </summary>
-        public long Sales { get; set; }
+        public long? Sales { get; set; }
         /// <summary>
         /// 描述：是否自营，g：自营，p：pop
         /// 例如：g

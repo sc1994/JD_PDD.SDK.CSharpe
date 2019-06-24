@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -22,16 +23,18 @@ namespace Jd.Sdk.Apis
             => await PostAsync<JdBaseResponse>();
 
         /// <summary>
+        /// 必填
         /// 描述：商品ID
         /// 例如：23335727609
-        /// 必填
         /// </summary>
-        public long SkuId { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public long? SkuId { get; set; }
         /// <summary>
+        /// 必填
         /// 描述：优惠券链接
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
-        /// 必填
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string CouponLink { get; set; }
     }
 
