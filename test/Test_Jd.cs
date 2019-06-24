@@ -35,7 +35,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace test
             var req = new JdUnionOpenGoodsQueryRequest(_appKey, _appSecret);
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
@@ -143,7 +143,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 403);
+            Assert.True(res.Code == 200);
         }
 
         [Fact]
