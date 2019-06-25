@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,8 +34,9 @@ namespace Tool
                     var className = code.FirstOrDefault(x => x.Trim().StartsWith("public class ") && x.EndsWith("Request : JdBaseRequest"));
                     if (className != default)
                     {
+                        var flatCode = FlatCode(code);
                         var apiName = className.Trim().Split(' ')[2].Replace("Request", "");
-                        File.WriteAllLines($"../Jd.Sdk/Apis/{apiName}.cs", code);
+                        File.WriteAllLines($"../Jd.Sdk/Apis/{apiName}.cs", flatCode);
                         Console.WriteLine();
                         Console.WriteLine("[Fact]");
                         Console.WriteLine($"public async void Test_{apiName}()");
@@ -120,7 +123,7 @@ namespace Tool
             }
             else
             {
-                
+
             }
             code.AppendLine($"        public async Task<{isPage}{isArray}> InvokeAsync()");
             code.AppendLine($"            => await PostAsync<{isPage}{isArray}>();");
@@ -292,6 +295,58 @@ namespace Tool
             {
                 code.AppendLine($"public {SwitchType(item.paramType)} {item.paramName} {{ get; set; }}");
             }
+        }
+
+        static string[] FlatCode(string[] source)
+        {
+            var copy = new List<string>(source.AsEnumerable());
+            var nestClass = source.Where(x => GetStartContinuous(x, ' ').Length >= 8 && x.Trim().StartsWith("public class")).ToArray();
+            var toEnds = new List<string[]>();
+            foreach (var item in nestClass)
+            {
+                var start = source
+                            .ToList()
+                            .IndexOf(item)
+                            - 3;
+                var end = source
+                            .Skip(start).ToList()
+                            .IndexOf(GetStartContinuous(item, ' ') + "}")
+                            + 1;
+                toEnds.Add(copy.Skip(start).Take(end).ToArray());
+                copy.RemoveRange(start, end);
+            }
+            copy.RemoveAt(copy.Count - 2);
+            foreach (var item in toEnds)
+            {
+                var allLength = item.Select(x => GetStartContinuous(x, ' ').Length)
+                                    .Where(x => x > 4);
+                var max = allLength.Max();
+                var min = allLength.Min();
+                var temp = item.Select((x, i) =>
+                {
+                    var l = GetStartContinuous(x, ' ').Length;
+                    if (l == min)
+                        return "    " + x.Trim();
+                    else if (l == max)
+                        return "        " + x.Trim();
+                    return default;
+                }).Where(x => x != default);
+                copy.AddRange(temp);
+            }
+            copy.Add("}");
+            copy.Add("");
+            return copy.ToArray();
+        }
+
+        static string GetStartContinuous(string source, char @char)
+        {
+            var result = string.Empty;
+            foreach (var c in source)
+            {
+                if (c != @char) break;
+                result += c;
+            }
+            return result;
         }
 
         static string UpperFirst(string that)
