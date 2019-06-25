@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Jd.Sdk;
 using Jd.Sdk.Apis;
 using Newtonsoft.Json;
 using Xunit;
@@ -21,6 +22,28 @@ namespace test
             _appKey = apps[0];
             _appSecret = apps[1];
             _output = output;
+        }
+
+        [Fact]
+        public async void Test_JdUnionOpenOrderQuery_Config()
+        {
+            var req = new JdUnionOpenOrderQueryRequest
+            {
+                Type = 1,
+                Time = DateTime.Now.ToString("yyyyMMddHHmm"),
+                PageSize = 10,
+                PageNo = 1
+            };
+            try
+            {
+                var res = await req.InvokeAsync();
+            }
+            finally
+            {
+                var json = JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented);
+                _output.WriteLine(json);
+                Assert.Contains("无效app_key:todo", json);
+            }
         }
 
         [Fact]

@@ -20,4 +20,10 @@
     <ProjectReference Include="..\src\Jd.Sdk\Jd.Sdk.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

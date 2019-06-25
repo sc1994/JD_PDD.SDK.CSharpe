@@ -84,16 +84,16 @@ pdd需要传入接口标识，比如：`https://open.pinduoduo.com/#/apidocument
 ## 缺点
 
 - 采用代码生成无法识别接口的相同部分，也就意味这生成的代码几乎无代码复用。会产生一定程度的重复代码。
-- 嵌套的实体会生成嵌套类代码，*出现在相应实体中*，会产生贼长的命名。
+- 会产生贼长的命名。
 
 ```c#
 public class JdUnionOpenOrderQueryResponse
 {
-    ...
-    public class JdUnionOpenOrderQuery_SkuInfo
-    {
+    public JdUnionOpenOrderQuery_SkuInfo SkuInfo { get; set; }
+}
 
-    }
+public class JdUnionOpenOrderQuery_SkuInfo
+{
     ...
 }
 ```
@@ -103,6 +103,11 @@ public class JdUnionOpenOrderQueryResponse
 ## 更新日志
 
 ```txt
+2019年6月25日 优化嵌套类的结构，加入config
+            |
+            .
+            |
+            v
 2019年6月24日 Jd 17个接口通过单元测试
             |
             .

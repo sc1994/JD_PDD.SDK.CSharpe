@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Common;
 using Flurl.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -25,8 +26,12 @@ namespace Jd.Sdk
 
         protected JdBaseRequest()
         {
-            _appKey = "todo";
-            _appSecret = "todo";
+            var config = new ConfigurationBuilder()
+                     .AddJsonFile("appsettings.json")
+                     .Build();
+
+            _appKey = config.GetSection("JdSdk")?["AppKey"];
+            _appSecret = config.GetSection("JdSdk")?["AppSecret"];
             _timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
