@@ -96,5 +96,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public long? UnionId { get; set; }
     }
+
 }
 

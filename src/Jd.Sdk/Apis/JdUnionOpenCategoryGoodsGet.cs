@@ -68,5 +68,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public int? ParentId { get; set; }
     }
+
 }
 

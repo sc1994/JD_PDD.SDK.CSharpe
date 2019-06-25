@@ -220,5 +220,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public double InOrderComm30Days { get; set; }
     }
+
 }
 

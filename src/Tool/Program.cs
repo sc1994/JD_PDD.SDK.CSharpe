@@ -302,13 +302,13 @@ namespace Tool
             var copy = new List<string>(source.AsEnumerable());
             var nestClass = source.Where(x => GetStartContinuous(x, ' ').Length >= 8 && x.Trim().StartsWith("public class")).ToArray();
             var toEnds = new List<string[]>();
-            foreach (var item in nestClass)
+            foreach (var item in nestClass.OrderByDescending(x => GetStartContinuous(x, ' ').Length))
             {
-                var start = source
+                var start = copy
                             .ToList()
                             .IndexOf(item)
                             - 3;
-                var end = source
+                var end = copy
                             .Skip(start).ToList()
                             .IndexOf(GetStartContinuous(item, ' ') + "}")
                             + 1;
@@ -319,7 +319,8 @@ namespace Tool
             foreach (var item in toEnds)
             {
                 var allLength = item.Select(x => GetStartContinuous(x, ' ').Length)
-                                    .Where(x => x > 4);
+                                    .Where(x => x > 4)
+                                    .ToArray();
                 var max = allLength.Max();
                 var min = allLength.Min();
                 var temp = item.Select((x, i) =>

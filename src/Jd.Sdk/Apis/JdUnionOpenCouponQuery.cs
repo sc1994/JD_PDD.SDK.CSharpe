@@ -98,5 +98,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public string Platform { get; set; }
     }
+
 }
 

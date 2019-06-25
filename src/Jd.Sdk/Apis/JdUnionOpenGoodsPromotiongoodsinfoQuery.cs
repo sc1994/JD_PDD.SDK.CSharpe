@@ -158,5 +158,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public long? Cid { get; set; }
     }
+
 }
 

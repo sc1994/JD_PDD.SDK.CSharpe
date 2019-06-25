@@ -84,36 +84,37 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public JdUnionOpenPositionQuery_Positionresp[] Result { get; set; }
         /// <summary>
-        /// 返回结果
-        /// </summary>
-        public class JdUnionOpenPositionQuery_Positionresp
-        {
-            /// <summary>
-            /// 描述：推广位ID
-            /// 例如：6188886186
-            /// </summary>
-            public long? Id { get; set; }
-            /// <summary>
-            /// 描述：站点ID，如网站ID/appID/snsID
-            /// 例如：0
-            /// </summary>
-            public long? SiteId { get; set; }
-            /// <summary>
-            /// 描述：推广位名称
-            /// 例如：test3
-            /// </summary>
-            public string SpaceName { get; set; }
-            /// <summary>
-            /// 描述：站点类型(1网站推广位2.APP推广位3.社交媒体推广位4.聊天工具推广位)
-            /// 例如：4
-            /// </summary>
-            public long? Type { get; set; }
-        }
-        /// <summary>
         /// 描述：总数
         /// 例如：3
         /// </summary>
         public long? Total { get; set; }
+    }
+
+    /// <summary>
+    /// 返回结果
+    /// </summary>
+    public class JdUnionOpenPositionQuery_Positionresp
+    {
+        /// <summary>
+        /// 描述：推广位ID
+        /// 例如：6188886186
+        /// </summary>
+        public long? Id { get; set; }
+        /// <summary>
+        /// 描述：站点ID，如网站ID/appID/snsID
+        /// 例如：0
+        /// </summary>
+        public long? SiteId { get; set; }
+        /// <summary>
+        /// 描述：推广位名称
+        /// 例如：test3
+        /// </summary>
+        public string SpaceName { get; set; }
+        /// <summary>
+        /// 描述：站点类型(1网站推广位2.APP推广位3.社交媒体推广位4.聊天工具推广位)
+        /// 例如：4
+        /// </summary>
+        public long? Type { get; set; }
     }
 }
 

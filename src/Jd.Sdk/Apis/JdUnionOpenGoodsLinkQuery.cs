@@ -103,5 +103,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public string IsSelf { get; set; }
     }
+
 }
 

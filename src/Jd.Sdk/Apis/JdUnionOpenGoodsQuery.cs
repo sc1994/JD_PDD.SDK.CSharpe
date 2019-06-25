@@ -186,42 +186,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public JdUnionOpenGoodsQuery_Categoryinfo CategoryInfo { get; set; }
         /// <summary>
-        /// 类目信息
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Categoryinfo
-        {
-            /// <summary>
-            /// 描述：一级类目ID
-            /// 例如：6144
-            /// </summary>
-            public long? Cid1 { get; set; }
-            /// <summary>
-            /// 描述：一级类目名称
-            /// 例如：珠宝首饰
-            /// </summary>
-            public string Cid1Name { get; set; }
-            /// <summary>
-            /// 描述：二级类目ID
-            /// 例如：12041
-            /// </summary>
-            public long? Cid2 { get; set; }
-            /// <summary>
-            /// 描述：二级类目名称
-            /// 例如：木手串/把件
-            /// </summary>
-            public string Cid2Name { get; set; }
-            /// <summary>
-            /// 描述：三级类目ID
-            /// 例如：12052
-            /// </summary>
-            public long? Cid3 { get; set; }
-            /// <summary>
-            /// 描述：三级类目名称
-            /// 例如：其他
-            /// </summary>
-            public string Cid3Name { get; set; }
-        }
-        /// <summary>
         /// 描述：评论数
         /// 例如：250
         /// </summary>
@@ -232,88 +196,10 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public JdUnionOpenGoodsQuery_Commissioninfo CommissionInfo { get; set; }
         /// <summary>
-        /// 佣金信息
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Commissioninfo
-        {
-            /// <summary>
-            /// 描述：佣金
-            /// 例如：22.68
-            /// </summary>
-            public double Commission { get; set; }
-            /// <summary>
-            /// 描述：佣金比例
-            /// 例如：50
-            /// </summary>
-            public double CommissionShare { get; set; }
-        }
-        /// <summary>
         /// 描述：优惠券信息，返回内容为空说明该SKU无可用优惠券
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsQuery_Couponinfo CouponInfo { get; set; }
-        /// <summary>
-        /// 优惠券信息，返回内容为空说明该SKU无可用优惠券
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Couponinfo
-        {
-            /// <summary>
-            /// 描述：优惠券合集
-            /// 例如：
-            /// </summary>
-            public JdUnionOpenGoodsQuery_Coupon[] CouponList { get; set; }
-            /// <summary>
-            /// 优惠券合集
-            /// </summary>
-            public class JdUnionOpenGoodsQuery_Coupon
-            {
-                /// <summary>
-                /// 描述：券种类 (优惠券种类：0 - 全品类，1 - 限品类（自营商品），2 - 限店铺，3 - 店铺限商品券)
-                /// 例如：3
-                /// </summary>
-                public int? BindType { get; set; }
-                /// <summary>
-                /// 描述：券面额
-                /// 例如：30
-                /// </summary>
-                public double Discount { get; set; }
-                /// <summary>
-                /// 描述：券链接
-                /// 例如：http://coupon.jd.com/ilink/couponActiveFront/front_index.action?XXXXXXX
-                /// </summary>
-                public string Link { get; set; }
-                /// <summary>
-                /// 描述：券使用平台 (平台类型：0 - 全平台券，1 - 限平台券)
-                /// 例如：0
-                /// </summary>
-                public int? PlatformType { get; set; }
-                /// <summary>
-                /// 描述：券消费限额
-                /// 例如：39
-                /// </summary>
-                public double Quota { get; set; }
-                /// <summary>
-                /// 描述：领取开始时间(时间戳，毫秒)
-                /// 例如：1532921782000
-                /// </summary>
-                public long? GetStartTime { get; set; }
-                /// <summary>
-                /// 描述：券领取结束时间(时间戳，毫秒)
-                /// 例如：1532921782000
-                /// </summary>
-                public long? GetEndTime { get; set; }
-                /// <summary>
-                /// 描述：券有效使用开始时间(时间戳，毫秒)
-                /// 例如：1532921782000
-                /// </summary>
-                public long? UseStartTime { get; set; }
-                /// <summary>
-                /// 描述：券有效使用结束时间(时间戳，毫秒)
-                /// 例如：1532921782000
-                /// </summary>
-                public long? UseEndTime { get; set; }
-            }
-        }
         /// <summary>
         /// 描述：商品好评率
         /// 例如：99
@@ -324,28 +210,6 @@ namespace Jd.Sdk.Apis
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsQuery_Imageinfo ImageInfo { get; set; }
-        /// <summary>
-        /// 图片信息
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Imageinfo
-        {
-            /// <summary>
-            /// 描述：图片合集
-            /// 例如：
-            /// </summary>
-            public JdUnionOpenGoodsQuery_Urlinfo[] ImageList { get; set; }
-            /// <summary>
-            /// 图片合集
-            /// </summary>
-            public class JdUnionOpenGoodsQuery_Urlinfo
-            {
-                /// <summary>
-                /// 描述：图片链接地址，第一个图片链接为主图链接
-                /// 例如：http://img14.360buyimg.com/ads/jfs/t22495/56/628456568/380476/9befc935/5b39fb01N7d1af390.jpg
-                /// </summary>
-                public string Url { get; set; }
-            }
-        }
         /// <summary>
         /// 描述：30天引单数量
         /// 例如：6018
@@ -367,37 +231,10 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public JdUnionOpenGoodsQuery_Priceinfo PriceInfo { get; set; }
         /// <summary>
-        /// 价格信息
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Priceinfo
-        {
-            /// <summary>
-            /// 描述：无线价格
-            /// 例如：39.9
-            /// </summary>
-            public double Price { get; set; }
-        }
-        /// <summary>
         /// 描述：店铺信息
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsQuery_Shopinfo ShopInfo { get; set; }
-        /// <summary>
-        /// 店铺信息
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Shopinfo
-        {
-            /// <summary>
-            /// 描述：店铺名称（或供应商名称）
-            /// 例如：XXXX旗舰店
-            /// </summary>
-            public string ShopName { get; set; }
-            /// <summary>
-            /// 描述：店铺Id
-            /// 例如：45619
-            /// </summary>
-            public int? ShopId { get; set; }
-        }
         /// <summary>
         /// 描述：商品ID
         /// 例如：26898778009
@@ -439,62 +276,226 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public JdUnionOpenGoodsQuery_Pinggouinfo PingGouInfo { get; set; }
         /// <summary>
-        /// 已废弃，请使用pinGouInfo
-        /// </summary>
-        public class JdUnionOpenGoodsQuery_Pinggouinfo
-        {
-            /// <summary>
-            /// 描述：拼购价格
-            /// 例如：39.9
-            /// </summary>
-            public double PingouPrice { get; set; }
-            /// <summary>
-            /// 描述：拼购成团所需人数
-            /// 例如：2
-            /// </summary>
-            public long? PingouTmCount { get; set; }
-            /// <summary>
-            /// 描述：拼购落地页url
-            /// 例如：https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=35097232463&amp;from=cps
-            /// </summary>
-            public string PingouUrl { get; set; }
-        }
-        /// <summary>
         /// 描述：拼购信息
         /// 例如：
         /// </summary>
         public JdUnionOpenGoodsQuery_Pingouinfo PinGouInfo { get; set; }
+    }
+
+    /// <summary>
+    /// 优惠券合集
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Coupon
+    {
         /// <summary>
-        /// 拼购信息
+        /// 描述：券种类 (优惠券种类：0 - 全品类，1 - 限品类（自营商品），2 - 限店铺，3 - 店铺限商品券)
+        /// 例如：3
         /// </summary>
-        public class JdUnionOpenGoodsQuery_Pingouinfo
-        {
-            /// <summary>
-            /// 描述：拼购价格
-            /// 例如：39.9
-            /// </summary>
-            public double PingouPrice { get; set; }
-            /// <summary>
-            /// 描述：拼购成团所需人数
-            /// 例如：2
-            /// </summary>
-            public long? PingouTmCount { get; set; }
-            /// <summary>
-            /// 描述：拼购落地页url
-            /// 例如：https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=35097232463&amp;from=cps
-            /// </summary>
-            public string PingouUrl { get; set; }
-            /// <summary>
-            /// 描述：拼购开始时间(时间戳，毫秒)
-            /// 例如：1546444800000
-            /// </summary>
-            public long? PingouStartTime { get; set; }
-            /// <summary>
-            /// 描述：拼购结束时间(时间戳，毫秒)
-            /// 例如：1548604800000
-            /// </summary>
-            public long? PingouEndTime { get; set; }
-        }
+        public int? BindType { get; set; }
+        /// <summary>
+        /// 描述：券面额
+        /// 例如：30
+        /// </summary>
+        public double Discount { get; set; }
+        /// <summary>
+        /// 描述：券链接
+        /// 例如：http://coupon.jd.com/ilink/couponActiveFront/front_index.action?XXXXXXX
+        /// </summary>
+        public string Link { get; set; }
+        /// <summary>
+        /// 描述：券使用平台 (平台类型：0 - 全平台券，1 - 限平台券)
+        /// 例如：0
+        /// </summary>
+        public int? PlatformType { get; set; }
+        /// <summary>
+        /// 描述：券消费限额
+        /// 例如：39
+        /// </summary>
+        public double Quota { get; set; }
+        /// <summary>
+        /// 描述：领取开始时间(时间戳，毫秒)
+        /// 例如：1532921782000
+        /// </summary>
+        public long? GetStartTime { get; set; }
+        /// <summary>
+        /// 描述：券领取结束时间(时间戳，毫秒)
+        /// 例如：1532921782000
+        /// </summary>
+        public long? GetEndTime { get; set; }
+        /// <summary>
+        /// 描述：券有效使用开始时间(时间戳，毫秒)
+        /// 例如：1532921782000
+        /// </summary>
+        public long? UseStartTime { get; set; }
+        /// <summary>
+        /// 描述：券有效使用结束时间(时间戳，毫秒)
+        /// 例如：1532921782000
+        /// </summary>
+        public long? UseEndTime { get; set; }
+    }
+    /// <summary>
+    /// 图片合集
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Urlinfo
+    {
+        /// <summary>
+        /// 描述：图片链接地址，第一个图片链接为主图链接
+        /// 例如：http://img14.360buyimg.com/ads/jfs/t22495/56/628456568/380476/9befc935/5b39fb01N7d1af390.jpg
+        /// </summary>
+        public string Url { get; set; }
+    }
+    /// <summary>
+    /// 类目信息
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Categoryinfo
+    {
+        /// <summary>
+        /// 描述：一级类目ID
+        /// 例如：6144
+        /// </summary>
+        public long? Cid1 { get; set; }
+        /// <summary>
+        /// 描述：一级类目名称
+        /// 例如：珠宝首饰
+        /// </summary>
+        public string Cid1Name { get; set; }
+        /// <summary>
+        /// 描述：二级类目ID
+        /// 例如：12041
+        /// </summary>
+        public long? Cid2 { get; set; }
+        /// <summary>
+        /// 描述：二级类目名称
+        /// 例如：木手串/把件
+        /// </summary>
+        public string Cid2Name { get; set; }
+        /// <summary>
+        /// 描述：三级类目ID
+        /// 例如：12052
+        /// </summary>
+        public long? Cid3 { get; set; }
+        /// <summary>
+        /// 描述：三级类目名称
+        /// 例如：其他
+        /// </summary>
+        public string Cid3Name { get; set; }
+    }
+    /// <summary>
+    /// 佣金信息
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Commissioninfo
+    {
+        /// <summary>
+        /// 描述：佣金
+        /// 例如：22.68
+        /// </summary>
+        public double Commission { get; set; }
+        /// <summary>
+        /// 描述：佣金比例
+        /// 例如：50
+        /// </summary>
+        public double CommissionShare { get; set; }
+    }
+    /// <summary>
+    /// 优惠券信息，返回内容为空说明该SKU无可用优惠券
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Couponinfo
+    {
+        /// <summary>
+        /// 描述：优惠券合集
+        /// 例如：
+        /// </summary>
+        public JdUnionOpenGoodsQuery_Coupon[] CouponList { get; set; }
+    }
+    /// <summary>
+    /// 图片信息
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Imageinfo
+    {
+        /// <summary>
+        /// 描述：图片合集
+        /// 例如：
+        /// </summary>
+        public JdUnionOpenGoodsQuery_Urlinfo[] ImageList { get; set; }
+    }
+    /// <summary>
+    /// 价格信息
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Priceinfo
+    {
+        /// <summary>
+        /// 描述：无线价格
+        /// 例如：39.9
+        /// </summary>
+        public double Price { get; set; }
+    }
+    /// <summary>
+    /// 店铺信息
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Shopinfo
+    {
+        /// <summary>
+        /// 描述：店铺名称（或供应商名称）
+        /// 例如：XXXX旗舰店
+        /// </summary>
+        public string ShopName { get; set; }
+        /// <summary>
+        /// 描述：店铺Id
+        /// 例如：45619
+        /// </summary>
+        public int? ShopId { get; set; }
+    }
+    /// <summary>
+    /// 已废弃，请使用pinGouInfo
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Pinggouinfo
+    {
+        /// <summary>
+        /// 描述：拼购价格
+        /// 例如：39.9
+        /// </summary>
+        public double PingouPrice { get; set; }
+        /// <summary>
+        /// 描述：拼购成团所需人数
+        /// 例如：2
+        /// </summary>
+        public long? PingouTmCount { get; set; }
+        /// <summary>
+        /// 描述：拼购落地页url
+        /// 例如：https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=35097232463&amp;from=cps
+        /// </summary>
+        public string PingouUrl { get; set; }
+    }
+    /// <summary>
+    /// 拼购信息
+    /// </summary>
+    public class JdUnionOpenGoodsQuery_Pingouinfo
+    {
+        /// <summary>
+        /// 描述：拼购价格
+        /// 例如：39.9
+        /// </summary>
+        public double PingouPrice { get; set; }
+        /// <summary>
+        /// 描述：拼购成团所需人数
+        /// 例如：2
+        /// </summary>
+        public long? PingouTmCount { get; set; }
+        /// <summary>
+        /// 描述：拼购落地页url
+        /// 例如：https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=35097232463&amp;from=cps
+        /// </summary>
+        public string PingouUrl { get; set; }
+        /// <summary>
+        /// 描述：拼购开始时间(时间戳，毫秒)
+        /// 例如：1546444800000
+        /// </summary>
+        public long? PingouStartTime { get; set; }
+        /// <summary>
+        /// 描述：拼购结束时间(时间戳，毫秒)
+        /// 例如：1548604800000
+        /// </summary>
+        public long? PingouEndTime { get; set; }
     }
 }
 

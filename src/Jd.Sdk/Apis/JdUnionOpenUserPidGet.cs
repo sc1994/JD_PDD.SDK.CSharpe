@@ -69,5 +69,6 @@ namespace Jd.Sdk.Apis
     public class JdUnionOpenUserPidGetResponse
     {
     }
+
 }
 

@@ -232,5 +232,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public double JdPrice { get; set; }
     }
+
 }
 

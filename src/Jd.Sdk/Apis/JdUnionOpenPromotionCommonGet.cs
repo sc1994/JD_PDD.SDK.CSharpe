@@ -95,5 +95,6 @@ namespace Jd.Sdk.Apis
         /// </summary>
         public string ClickURL { get; set; }
     }
+
 }
 
