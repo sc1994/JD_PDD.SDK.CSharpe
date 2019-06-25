@@ -1,14 +1,112 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Flurl.Http;
+using Newtonsoft.Json;
+
 namespace Tool
 {
-    public class JdPddRootobject
+    partial class Program
+    {
+        static async Task<string[]> GetPddCode(string id)
+        {
+            var sender = await "https://open-api.pinduoduo.com/pop/doc/info/get".PostJsonAsync(new { id });
+
+            var @string = await sender.Content.ReadAsStringAsync();
+            var root = JsonConvert.DeserializeObject<PddRootobject>(@string);
+
+            var className = root.result.scopeName;
+            className = string.Join("", className.Split('.').Select(UpperFirst));
+            Console.WriteLine(className);
+            var code = new StringBuilder();
+            code.AppendLine("namespace todo");
+            code.AppendLine("{");
+            code.AppendLine("/// <summary>");
+            code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--请求参数");
+            code.AppendLine($"/// {root.result.scopeName}");
+            code.AppendLine("/// </summary>");
+            code.AppendLine($"public class {className}Request : BaseRequest");
+            code.AppendLine("{");
+            foreach (var item in root.result.requestParamList.Where(x => x.parentId == 0))
+            {
+                GetPddParamStereoscopic(item, root.result.requestParamList, className, ref code);
+            }
+            code.AppendLine("}");
+            code.AppendLine();
+            code.AppendLine();
+            code.AppendLine();
+            code.AppendLine("/// <summary>");
+            code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--响应参数");
+            code.AppendLine($"/// {root.result.scopeName}");
+            code.AppendLine("/// </summary>");
+            code.AppendLine($"public class {className}Response");
+            code.AppendLine("{");
+            foreach (var item in root.result.responseParamList.Where(x => x.parentId == 0))
+            {
+                GetPddParamStereoscopic(
+                    new PddRequestparamlist(item),
+                    root.result.responseParamList.Select(x => new PddRequestparamlist(x)).ToArray(),
+                    className,
+                    ref code);
+            }
+            code.AppendLine("}");
+            code.AppendLine("}");
+            var lines = code.ToString().Split("\r\n");
+            return lines.ToArray();
+        }
+
+        static void GetPddParamStereoscopic(
+            PddRequestparamlist item,
+            PddRequestparamlist[] all,
+            string className,
+            ref StringBuilder code)
+        {
+            code.AppendLine("/// <summary>");
+            code.AppendLine($"/// 描述：{item.paramDesc}");
+            if (item.isMust != -1)
+            {
+                code.AppendLine($"/// 必填：{item.isMust}");
+                code.AppendLine($"/// 默认值：{item.defaultValue}");
+            }
+            code.AppendLine($"/// 例如：{item.example}");
+            code.AppendLine("/// </summary>");
+
+            var currentNodes = all.Where(x => x.parentId == item.id).ToArray();
+
+            if (currentNodes.Any())
+            {
+                var tempName = string.Join("", item.paramName.Split('_').Select(UpperFirst));
+                var tempSymbol = item.paramType.Replace("OBJECT", "");
+                code.AppendLine($"public {className}_{tempName}{tempSymbol} {item.paramName} {{ get; set; }}");
+                code.AppendLine("/// <summary>");
+                code.AppendLine($"/// {item.paramDesc}");
+                code.AppendLine("/// </summary>");
+                code.AppendLine($"public class {className}_{tempName}");
+                code.AppendLine("{");
+                foreach (var that in currentNodes)
+                {
+                    GetPddParamStereoscopic(that, all, className, ref code);
+                }
+                code.AppendLine("}");
+            }
+            else
+            {
+                code.AppendLine($"public {SwitchType(item.paramType)} {item.paramName} {{ get; set; }}");
+            }
+        }
+    }
+
+
+    public class PddRootobject
     {
         public bool success { get; set; }
         public int errorCode { get; set; }
         public object errorMsg { get; set; }
-        public JdResult result { get; set; }
+        public PddResult result { get; set; }
     }
 
-    public class JdResult
+    public class PddResult
     {
         public int id { get; set; }
         public int catId { get; set; }
@@ -25,19 +123,19 @@ namespace Tool
         public object requestCodeExample { get; set; }
         public string responseCodeExample { get; set; }
         public string feeType { get; set; }
-        public JdRequestparamlist[] requestParamList { get; set; }
-        public JdResponseparamlist[] responseParamList { get; set; }
-        public JdErrorparamlist[] errorParamList { get; set; }
-        public JdLimiter[] limiters { get; set; }
-        public JdPermissionspkg[] permissionsPkgs { get; set; }
-        public JdSdkdemo[] sdkDemos { get; set; }
+        public PddRequestparamlist[] requestParamList { get; set; }
+        public PddResponseparamlist[] responseParamList { get; set; }
+        public PddErrorparamlist[] errorParamList { get; set; }
+        public PddJdLimiter[] limiters { get; set; }
+        public PddJdPermissionspkg[] permissionsPkgs { get; set; }
+        public PddJdSdkdemo[] sdkDemos { get; set; }
     }
 
-    public class JdRequestparamlist
+    public class PddRequestparamlist
     {
-        public JdRequestparamlist() { }
+        public PddRequestparamlist() { }
 
-        public JdRequestparamlist(JdResponseparamlist item)
+        public PddRequestparamlist(PddResponseparamlist item)
         {
             id = item.id;
             parentId = item.parentId;
@@ -59,7 +157,7 @@ namespace Tool
         public string paramDesc { get; set; }
     }
 
-    public class JdResponseparamlist
+    public class PddResponseparamlist
     {
         public int id { get; set; }
         public int parentId { get; set; }
@@ -71,7 +169,7 @@ namespace Tool
         public string paramDesc { get; set; }
     }
 
-    public class JdErrorparamlist
+    public class PddErrorparamlist
     {
         public string errorCode { get; set; }
         public string errorMsg { get; set; }
@@ -79,28 +177,28 @@ namespace Tool
         public string outerErrorCode { get; set; }
     }
 
-    public class JdLimiter
+    public class PddJdLimiter
     {
         public int limiterLevel { get; set; }
         public int timeRange { get; set; }
         public int times { get; set; }
     }
 
-    public class JdPermissionspkg
+    public class PddJdPermissionspkg
     {
         public int id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public JdApptypelist[] appTypeList { get; set; }
+        public PddJdApptypelist[] appTypeList { get; set; }
     }
 
-    public class JdApptypelist
+    public class PddJdApptypelist
     {
         public int id { get; set; }
         public string name { get; set; }
     }
 
-    public class JdSdkdemo
+    public class PddJdSdkdemo
     {
         public string name { get; set; }
         public string description { get; set; }
