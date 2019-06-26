@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,14 +26,12 @@ namespace Jd.Sdk.Apis
         /// 描述：链接
         /// 例如：https://item.jd.com/product/12473772.html
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Url { get; set; }
         /// <summary>
         /// 必填
         /// 描述：子联盟ID（需要联系运营开通权限才能拿到数据）
         /// 例如：618_18_c35***e6a
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SubUnionId { get; set; }
     }
 
@@ -71,12 +68,12 @@ namespace Jd.Sdk.Apis
         /// 描述：京东价，单位：元
         /// 例如：37.4
         /// </summary>
-        public double Price { get; set; }
+        public double? Price { get; set; }
         /// <summary>
         /// 描述：佣金比例，单位：%
         /// 例如：10.0
         /// </summary>
-        public double CosRatio { get; set; }
+        public double? CosRatio { get; set; }
         /// <summary>
         /// 描述：短链接
         /// 例如：https://u.jd.com/JMIOpg

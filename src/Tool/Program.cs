@@ -150,7 +150,7 @@ namespace Tool
                 case "int":
                 case "integer": return "int?";
                 case "long": return "long?";
-                case "doubel": return "doubel?";
+                case "double": return "double?";
                 case "map": return "System.Collections.Generic.Dictionary<string, object>";
                 default: return type.ToLower();
             }

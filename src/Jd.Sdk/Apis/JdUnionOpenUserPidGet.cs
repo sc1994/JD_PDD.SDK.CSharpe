@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,35 +26,30 @@ namespace Jd.Sdk.Apis
         /// 描述：联盟ID
         /// 例如：10000618
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? UnionId { get; set; }
         /// <summary>
         /// 必填
         /// 描述：子站长ID
         /// 例如：61800001
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? ChildUnionId { get; set; }
         /// <summary>
         /// 必填
         /// 描述：推广类型,1APP推广 2聊天工具推广 
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PromotionType { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：子站长的推广位名称，如不存在则创建，不填则由联盟根据母账号信息创建 
         /// 例如：
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string PositionName { get; set; }
         /// <summary>
         /// 必填
         /// 描述：媒体名称，即子站长的app应用名称，推广方式为app推广时必填，且app名称必须为已存在的app名称 
         /// 例如：huhu
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string MediaName { get; set; }
     }
 

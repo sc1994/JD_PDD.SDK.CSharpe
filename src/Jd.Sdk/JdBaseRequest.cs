@@ -8,7 +8,6 @@ using Common;
 using Flurl.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Jd.Sdk
 {
@@ -59,14 +58,9 @@ namespace Jd.Sdk
         protected abstract string ParamName { get; }
 
         /// <summary>
-        /// 业务数据
-        /// </summary>
-        protected virtual object Param => this;
-
-        /// <summary>
         /// url前缀
         /// </summary>
-        private string _baseUrl = "https://router.jd.com/api";
+        private readonly string _baseUrl = "https://router.jd.com/api";
 
         /// <summary>
         /// 必填 时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2018-08-01 13:00:00。API服务端允许客户端请求最大时间误差为10分钟
@@ -97,13 +91,7 @@ namespace Jd.Sdk
         /// <summary>
         /// json内容的业务数据
         /// </summary>
-        private string param_json
-            => JsonConvert.SerializeObject(
-                new Dictionary<string, object> { { ParamName, Param } },
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
+        private string _paramJson;
 
         private string GetUrlParams()
         {
@@ -121,16 +109,49 @@ namespace Jd.Sdk
                 signParams.Add(nameof(_accessToken), _accessToken);
             }
 
+            var properties = GetType().GetProperties()
+                                      .Where(x => x.Name != nameof(DebugInfo))
+                                      .ToDictionary(x => FirstLower(x.Name), x => x.GetValue(this));
+            var whereProperties = properties.Where(x => x.Value != default)
+                                            .ToDictionary(x => x.Key, x => x.Value);
+            if (properties.Count > 1)
+            {
+                _paramJson = JsonConvert.SerializeObject(new Dictionary<string, object>
+                {
+                    {ParamName, whereProperties}
+                }); // 自计算需要传入的参数，减少model的代码体积
+            }
+            else if (properties.Count == 1)
+            {
+                _paramJson = JsonConvert.SerializeObject(new Dictionary<string, object>
+                {
+                    {ParamName, whereProperties.FirstOrDefault().Value}
+                });
+            }
+            else
+            {
+                _paramJson = $"{{\"{ParamName}\":{{}}";
+            }
+
             var urlParams = string.Empty;
             foreach (var item in signParams)
             {
                 urlParams += $"&{item.Key}={HttpUtility.UrlEncode(item.Value.ToString(), Encoding.UTF8)}";
             }
 
-            signParams.Add(nameof(param_json), param_json); // param json 参与加密但是不参与url
+            signParams.Add("param_json", _paramJson); // param json 参与加密但是不参与url
             var sign = Sign.SignToMd5(signParams, _appSecret);
             urlParams += "&sign=" + sign;
             return urlParams.TrimStart('&');
+        }
+
+        /// <summary>
+        /// 首字符小写
+        /// </summary>
+        /// <returns></returns>
+        private string FirstLower(string source)
+        {
+            return source[0].ToString().ToLower() + source.Substring(1);
         }
 
         protected async Task<TResponse> PostAsync<TResponse>()
@@ -140,7 +161,7 @@ namespace Jd.Sdk
 
             var async = await url
                         .WithHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .PostStringAsync($"param_json={HttpUtility.UrlEncode(param_json, Encoding.UTF8)}");
+                        .PostStringAsync($"param_json={HttpUtility.UrlEncode(_paramJson, Encoding.UTF8)}");
 
             var @string = await async.Content.ReadAsStringAsync();
             try
@@ -151,7 +172,7 @@ namespace Jd.Sdk
                 DebugInfo = new
                 {
                     Url = url,
-                    Request = param_json,
+                    Request = _paramJson,
                     Response = @string
                 };
                 return JsonConvert.DeserializeObject<TResponse>(value.Result);
@@ -161,7 +182,7 @@ namespace Jd.Sdk
                 DebugInfo = new
                 {
                     Url = url,
-                    Request = param_json,
+                    Request = _paramJson,
                     ex
                 };
                 //throw new Exception($"{@string}\r\n-----------------------------\r\n{ex}");

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,42 +26,36 @@ namespace Jd.Sdk.Apis
         /// 描述：页码，返回第几页结果
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageNo { get; set; }
         /// <summary>
         /// 必填
         /// 描述：每页包含条数，上限为500
         /// 例如：20
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageSize { get; set; }
         /// <summary>
         /// 必填
         /// 描述：订单时间查询类型(1：下单时间，2：完成时间，3：更新时间)
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? Type { get; set; }
         /// <summary>
         /// 必填
         /// 描述：查询时间，建议使用分钟级查询，格式：yyyyMMddHH、yyyyMMddHHmm或yyyyMMddHHmmss，如201811031212 的查询范围从12:12:00--12:12:59
         /// 例如：201811031212
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Time { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：子站长ID（需要联系运营开通PID账户权限才能拿到数据），childUnionId和key不能同时传入
         /// 例如：61800001
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? ChildUnionId { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：其他推客的授权key，查询工具商订单需要填写此项，childUnionid和key不能同时传入
         /// 例如：
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Key { get; set; }
     }
 
@@ -146,32 +139,32 @@ namespace Jd.Sdk.Apis
         /// 描述：实际计算佣金的金额。订单完成后，会将误扣除的运费券金额更正。如订单完成后发生退款，此金额会更新。
         /// 例如：6.88
         /// </summary>
-        public double ActualCosPrice { get; set; }
+        public double? ActualCosPrice { get; set; }
         /// <summary>
         /// 描述：推客获得的实际佣金（实际计佣金额*佣金比例*最终比例）。如订单完成后发生退款，此金额会更新。
         /// 例如：6.18
         /// </summary>
-        public double ActualFee { get; set; }
+        public double? ActualFee { get; set; }
         /// <summary>
         /// 描述：佣金比例
         /// 例如：2.50
         /// </summary>
-        public double CommissionRate { get; set; }
+        public double? CommissionRate { get; set; }
         /// <summary>
         /// 描述：预估计佣金额，即用户下单的金额(已扣除优惠券、白条、支付优惠、进口税，未扣除红包和京豆)，有时会误扣除运费券金额，完成结算时会在实际计佣金额中更正。如订单完成前发生退款，此金额不会更新。
         /// 例如：618.18
         /// </summary>
-        public double EstimateCosPrice { get; set; }
+        public double? EstimateCosPrice { get; set; }
         /// <summary>
         /// 描述：推客的预估佣金（预估计佣金额*佣金比例*最终比例），如订单完成前发生退款，此金额不会更新。
         /// 例如：6.18
         /// </summary>
-        public double EstimateFee { get; set; }
+        public double? EstimateFee { get; set; }
         /// <summary>
         /// 描述：最终比例（分成比例+补贴比例）
         /// 例如：100.00
         /// </summary>
-        public double FinalRate { get; set; }
+        public double? FinalRate { get; set; }
         /// <summary>
         /// 描述：一级类目ID
         /// 例如：737
@@ -196,7 +189,7 @@ namespace Jd.Sdk.Apis
         /// 描述：商品单价
         /// 例如：61.8
         /// </summary>
-        public double Price { get; set; }
+        public double? Price { get; set; }
         /// <summary>
         /// 描述：二级类目ID
         /// 例如：738
@@ -231,12 +224,12 @@ namespace Jd.Sdk.Apis
         /// 描述：分成比例
         /// 例如：90
         /// </summary>
-        public double SubSideRate { get; set; }
+        public double? SubSideRate { get; set; }
         /// <summary>
         /// 描述：补贴比例
         /// 例如：10
         /// </summary>
-        public double SubsidyRate { get; set; }
+        public double? SubsidyRate { get; set; }
         /// <summary>
         /// 描述：三级类目ID
         /// 例如：749

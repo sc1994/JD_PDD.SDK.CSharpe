@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Jd.Sdk\Jd.Sdk.csproj" />
+    <ProjectReference Include="..\src\Pdd.Sdk\Pdd.Sdk.csproj" />
   </ItemGroup>
 
   <ItemGroup>

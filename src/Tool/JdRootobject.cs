@@ -18,7 +18,6 @@ namespace Tool
             var className = string.Join("", root.Data.ApiName.Split('.').Select(UpperFirst));
             var code = new StringBuilder();
             code.AppendLine("using System.Threading.Tasks;");
-            code.AppendLine("using Newtonsoft.Json;");
             code.AppendLine();
             code.AppendLine("namespace Jd.Sdk.Apis");
             code.AppendLine("{");
@@ -37,18 +36,10 @@ namespace Tool
             code.AppendLine($"        protected override string Method => \"{root.Data.ApiName}\";");
             code.AppendLine();
             var firstReq = root.Data.PLists.FirstOrDefault(x => x.DataType.EndsWith("Req"));
-            if (firstReq != null)
-            {
-                code.AppendLine($"        protected override string ParamName => \"{firstReq.DataName}\";");
-                code.AppendLine();
-            }
-            else
+            if (firstReq == null)
             {
                 firstReq = root.Data.PLists.First(x => x.DataName != "ROOT");
-                code.AppendLine($"        protected override string ParamName => \"{firstReq.DataName}\";");
-                code.AppendLine();
-                code.AppendLine($"        protected override object Param => {UpperFirst(firstReq.DataName)};");
-                code.AppendLine();
+
                 code.AppendLine("        /// <summary>");
                 code.AppendLine($"        /// {(firstReq.IsRequired.Trim() == "true" ? "必填" : "不必填")}");
                 code.AppendLine($"        /// 描述：{firstReq.Description.Trim()}");
@@ -57,6 +48,9 @@ namespace Tool
                 code.AppendLine($"        public {SwitchType(firstReq.DataType)} {UpperFirst(firstReq.DataName)} {{ get; set; }}");
                 code.AppendLine();
             }
+
+            code.AppendLine($"        protected override string ParamName => \"{firstReq.DataName}\";");
+            code.AppendLine();
 
             var isPage = root.Data.SLists.Any(x => x.DataName == "hasMore")
                 ? "JdBasePageResponse"
@@ -150,10 +144,6 @@ namespace Tool
             }
             else
             {
-                if (isRequest)
-                {
-                    code.AppendLine($"{spacing}[JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]");
-                }
                 code.AppendLine($"{spacing}public {SwitchType(item.DataType)} {UpperFirst(item.DataName)} {{ get; set; }}");
             }
         }

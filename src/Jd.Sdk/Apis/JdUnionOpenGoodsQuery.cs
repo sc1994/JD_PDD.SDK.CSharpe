@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,147 +26,126 @@ namespace Jd.Sdk.Apis
         /// 描述：一级类目id
         /// 例如：737
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? Cid1 { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：二级类目id
         /// 例如：738
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? Cid2 { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：三级类目id
         /// 例如：739
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? Cid3 { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：页码
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageIndex { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：每页数量，单页数最大30，默认20 
         /// 例如：20
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageSize { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：skuid集合(一次最多支持查询100个sku)，数组类型开发时记得加[]
         /// 例如：5225346,7275691
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long[] SkuIds { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：关键词，字数同京东商品名称一致，目前未限制
         /// 例如：手机
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Keyword { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：商品价格下限
         /// 例如：16.88
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double Pricefrom { get; set; }
+        public double? Pricefrom { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：商品价格上限
         /// 例如：19.95
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double Priceto { get; set; }
+        public double? Priceto { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：佣金比例区间开始
         /// 例如：10
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? CommissionShareStart { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：佣金比例区间结束
         /// 例如：50
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? CommissionShareEnd { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：商品类型：自营[g]，POP[p]
         /// 例如：g
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Owner { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：排序字段(price：单价, commissionShare：佣金比例, commission：佣金， inOrderCount30Days：30天引单量， inOrderComm30Days：30天支出佣金)
         /// 例如：price
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SortName { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：asc,desc升降序,默认降序
         /// 例如：desc
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Sort { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：是否是优惠券商品，1：有优惠券，0：无优惠券
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? IsCoupon { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：是否是拼购商品，1：拼购商品，0：非拼购商品
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? IsPG { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：拼购价格区间开始
         /// 例如：16.88
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double PingouPriceStart { get; set; }
+        public double? PingouPriceStart { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：拼购价格区间结束
         /// 例如：19.95
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double PingouPriceEnd { get; set; }
+        public double? PingouPriceEnd { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：是否是爆款，1：爆款商品，0：非爆款商品
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? IsHot { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：品牌code
         /// 例如：7998
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string BrandCode { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：店铺Id
         /// 例如：45619
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ShopId { get; set; }
     }
 
@@ -204,7 +182,7 @@ namespace Jd.Sdk.Apis
         /// 描述：商品好评率
         /// 例如：99
         /// </summary>
-        public double GoodCommentsShare { get; set; }
+        public double? GoodCommentsShare { get; set; }
         /// <summary>
         /// 描述：图片信息
         /// 例如：
@@ -296,7 +274,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券面额
         /// 例如：30
         /// </summary>
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
         /// <summary>
         /// 描述：券链接
         /// 例如：http://coupon.jd.com/ilink/couponActiveFront/front_index.action?XXXXXXX
@@ -311,7 +289,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券消费限额
         /// 例如：39
         /// </summary>
-        public double Quota { get; set; }
+        public double? Quota { get; set; }
         /// <summary>
         /// 描述：领取开始时间(时间戳，毫秒)
         /// 例如：1532921782000
@@ -332,6 +310,11 @@ namespace Jd.Sdk.Apis
         /// 例如：1532921782000
         /// </summary>
         public long? UseEndTime { get; set; }
+        /// <summary>
+        /// 描述：最优优惠券，1：是；0：否
+        /// 例如：1
+        /// </summary>
+        public int? IsBest { get; set; }
     }
     /// <summary>
     /// 图片合集
@@ -389,12 +372,12 @@ namespace Jd.Sdk.Apis
         /// 描述：佣金
         /// 例如：22.68
         /// </summary>
-        public double Commission { get; set; }
+        public double? Commission { get; set; }
         /// <summary>
         /// 描述：佣金比例
         /// 例如：50
         /// </summary>
-        public double CommissionShare { get; set; }
+        public double? CommissionShare { get; set; }
     }
     /// <summary>
     /// 优惠券信息，返回内容为空说明该SKU无可用优惠券
@@ -427,7 +410,17 @@ namespace Jd.Sdk.Apis
         /// 描述：无线价格
         /// 例如：39.9
         /// </summary>
-        public double Price { get; set; }
+        public double? Price { get; set; }
+        /// <summary>
+        /// 描述：最低价格
+        /// 例如：14.9
+        /// </summary>
+        public double? LowestPrice { get; set; }
+        /// <summary>
+        /// 描述：最低价格类型，1：无线价格；2：拼购价格； 3：秒杀价格
+        /// 例如：2
+        /// </summary>
+        public int? LowestPriceType { get; set; }
     }
     /// <summary>
     /// 店铺信息
@@ -454,7 +447,7 @@ namespace Jd.Sdk.Apis
         /// 描述：拼购价格
         /// 例如：39.9
         /// </summary>
-        public double PingouPrice { get; set; }
+        public double? PingouPrice { get; set; }
         /// <summary>
         /// 描述：拼购成团所需人数
         /// 例如：2
@@ -475,7 +468,7 @@ namespace Jd.Sdk.Apis
         /// 描述：拼购价格
         /// 例如：39.9
         /// </summary>
-        public double PingouPrice { get; set; }
+        public double? PingouPrice { get; set; }
         /// <summary>
         /// 描述：拼购成团所需人数
         /// 例如：2

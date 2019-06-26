@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -17,16 +16,14 @@ namespace Jd.Sdk.Apis
 
         protected override string Method => "jd.union.open.coupon.query";
 
-        protected override string ParamName => "couponUrls";
-
-        protected override object Param => CouponUrls;
-
         /// <summary>
         /// 必填
         /// 描述：优惠券链接集合；上限10（GET请求）；上限50（POST请求或SDK调用）
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXX
         /// </summary>
         public string[] CouponUrls { get; set; }
+
+        protected override string ParamName => "couponUrls";
 
         public async Task<JdBaseResponse<JdUnionOpenCouponQueryResponse[]>> InvokeAsync()
             => await PostAsync<JdBaseResponse<JdUnionOpenCouponQueryResponse[]>>();
@@ -71,7 +68,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券消费限额
         /// 例如：15
         /// </summary>
-        public double Quota { get; set; }
+        public double? Quota { get; set; }
         /// <summary>
         /// 描述：券链接
         /// 例如：http://coupon.jd.com/ilink/get/get_coupon.action?XXXXXXXXXXX
@@ -81,7 +78,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券面额
         /// 例如：10
         /// </summary>
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
         /// <summary>
         /// 描述：券有效使用开始时间(时间戳，毫秒)
         /// 例如：1531065600000

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,14 +26,12 @@ namespace Jd.Sdk.Apis
         /// 描述：skuId集合
         /// 例如：29357345299
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long[] SkuIds { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：查询域集合，不填写则查询全部
         /// 例如：&quot;categoryInfo&quot;,&quot;imageInfo&quot;,&quot;baseBigFieldInfo&quot;,&quot;bookBigFieldInfo&quot;,&quot;videoBigFieldInfo&quot;
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string[] Fields { get; set; }
     }
 

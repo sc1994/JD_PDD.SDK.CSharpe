@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,98 +26,84 @@ namespace Jd.Sdk.Apis
         /// 描述：sku id集合，长度最大30
         /// 例如：2622752,2112918
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long[] SkuIds { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：页码，默认1
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageIndex { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：每页数量最大30，默认30
         /// 例如：30
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageSize { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：是否返回未开始秒杀商品。1=返回，0=不返回
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? IsBeginSecKill { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：秒杀价区间开始（单位：元）
         /// 例如：100
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double SecKillPriceFrom { get; set; }
+        public double? SecKillPriceFrom { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：秒杀价区间结束
         /// 例如：1000
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double SecKillPriceTo { get; set; }
+        public double? SecKillPriceTo { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：一级类目
         /// 例如：9192
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? Cid1 { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：二级类目
         /// 例如：9194
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? Cid2 { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：三级类目
         /// 例如：9226
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long? Cid3 { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：g=自营，p=pop
         /// 例如：g
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Owner { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：佣金比例区间开始
         /// 例如：2.5
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double CommissionShareFrom { get; set; }
+        public double? CommissionShareFrom { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：佣金比例区间结束
         /// 例如：15
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public double CommissionShareTo { get; set; }
+        public double? CommissionShareTo { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：排序字段，可为空。  （默认搜索综合排序。允许的排序字段：seckillPrice、commissionShare、inOrderCount30Days、inOrderComm30Days）
         /// 例如：seckillPrice
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SortName { get; set; }
         /// <summary>
         /// 不必填
         /// 描述：desc=降序，asc=升序，可为空（默认降序）
         /// 例如：desc
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Sort { get; set; }
     }
 
@@ -155,12 +140,12 @@ namespace Jd.Sdk.Apis
         /// 描述：原价
         /// 例如：179
         /// </summary>
-        public double OriPrice { get; set; }
+        public double? OriPrice { get; set; }
         /// <summary>
         /// 描述：秒杀价
         /// 例如：79
         /// </summary>
-        public double SecKillPrice { get; set; }
+        public double? SecKillPrice { get; set; }
         /// <summary>
         /// 描述：秒杀开始展示时间（时间戳：毫秒）
         /// 例如：1533211200000
@@ -205,12 +190,12 @@ namespace Jd.Sdk.Apis
         /// 描述：通用佣金比例，百分比
         /// 例如：23.0
         /// </summary>
-        public double CommissionShare { get; set; }
+        public double? CommissionShare { get; set; }
         /// <summary>
         /// 描述：通用佣金
         /// 例如：18.17
         /// </summary>
-        public double Commission { get; set; }
+        public double? Commission { get; set; }
         /// <summary>
         /// 描述：是否自营。g=自营，p=pop
         /// 例如：p
@@ -225,12 +210,12 @@ namespace Jd.Sdk.Apis
         /// 描述：30天支出佣金（spu）
         /// 例如：15856.54
         /// </summary>
-        public double InOrderComm30Days { get; set; }
+        public double? InOrderComm30Days { get; set; }
         /// <summary>
         /// 描述：京东价
         /// 例如：138.0
         /// </summary>
-        public double JdPrice { get; set; }
+        public double? JdPrice { get; set; }
     }
 
 }

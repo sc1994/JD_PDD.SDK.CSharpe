@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Jd.Sdk;
 using Jd.Sdk.Apis;
 using Newtonsoft.Json;
 using Xunit;
@@ -131,7 +130,7 @@ namespace test
         {
             var req = new JdUnionOpenCategoryGoodsGetRequest(_appKey, _appSecret)
             {
-                Grade = 0,
+                Grade = 2,
                 ParentId = 1342
             };
             var res = await req.InvokeAsync();

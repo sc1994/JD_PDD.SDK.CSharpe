@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Jd.Sdk.Apis
 {
@@ -27,35 +26,30 @@ namespace Jd.Sdk.Apis
         /// 描述：1-好券商品,2-京粉APP-jingdong.超级大卖场,3-小程序-jingdong.好券商品,4-京粉APP-jingdong.主题聚惠1-jingdong.服装运动,5-京粉APP-jingdong.主题聚惠2-jingdong.精选家电,6-京粉APP-jingdong.主题聚惠3-jingdong.超市,7-京粉APP-jingdong.主题聚惠4-jingdong.居家生活,10-9.9专区,11-品牌好货-jingdong.潮流范儿,12-品牌好货-jingdong.精致生活,13-品牌好货-jingdong.数码先锋,14-品牌好货-jingdong.品质家电,15-京仓配送,16-公众号-jingdong.好券商品,17-公众号-jingdong.9.9,18-公众号-jingdong.京东配送
         /// 例如：11
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? EliteId { get; set; }
         /// <summary>
         /// 必填
         /// 描述：页码
         /// 例如：1
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageIndex { get; set; }
         /// <summary>
         /// 必填
         /// 描述：每页数量，默认20，上限50
         /// 例如：20
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? PageSize { get; set; }
         /// <summary>
         /// 必填
         /// 描述：排序字段(price：单价, commissionShare：佣金比例, commission：佣金， inOrderCount30DaysSku：sku维度30天引单量，comments：评论数，goodComments：好评数)
         /// 例如：price
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SortName { get; set; }
         /// <summary>
         /// 必填
         /// 描述：asc,desc升降序,默认降序
         /// 例如：desc
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Sort { get; set; }
     }
 
@@ -92,7 +86,7 @@ namespace Jd.Sdk.Apis
         /// 描述：商品好评率
         /// 例如：99
         /// </summary>
-        public double GoodCommentsShare { get; set; }
+        public double? GoodCommentsShare { get; set; }
         /// <summary>
         /// 描述：图片信息
         /// 例如：
@@ -184,7 +178,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券面额
         /// 例如：30
         /// </summary>
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
         /// <summary>
         /// 描述：券链接
         /// 例如：http://coupon.jd.com/ilink/couponActiveFront/front_index.action?XXXXXXX
@@ -199,7 +193,7 @@ namespace Jd.Sdk.Apis
         /// 描述：券消费限额
         /// 例如：39
         /// </summary>
-        public double Quota { get; set; }
+        public double? Quota { get; set; }
         /// <summary>
         /// 描述：领取开始时间(时间戳，毫秒)
         /// 例如：1532921782000
@@ -277,12 +271,12 @@ namespace Jd.Sdk.Apis
         /// 描述：佣金
         /// 例如：22.68
         /// </summary>
-        public double Commission { get; set; }
+        public double? Commission { get; set; }
         /// <summary>
         /// 描述：佣金比例
         /// 例如：50
         /// </summary>
-        public double CommissionShare { get; set; }
+        public double? CommissionShare { get; set; }
     }
     /// <summary>
     /// 优惠券信息，返回内容为空说明该SKU无可用优惠券
@@ -315,7 +309,7 @@ namespace Jd.Sdk.Apis
         /// 描述：无线价格
         /// 例如：39.9
         /// </summary>
-        public double Price { get; set; }
+        public double? Price { get; set; }
     }
     /// <summary>
     /// 店铺信息
@@ -342,7 +336,7 @@ namespace Jd.Sdk.Apis
         /// 描述：拼购价格
         /// 例如：39.9
         /// </summary>
-        public double PingouPrice { get; set; }
+        public double? PingouPrice { get; set; }
         /// <summary>
         /// 描述：拼购成团所需人数
         /// 例如：2
