@@ -7,6 +7,7 @@ using Jd.Sdk.Apis;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
+// ReSharper disable IdentifierTypo
 
 namespace test
 {
@@ -35,13 +36,13 @@ namespace test
             };
             try
             {
-                var res = await req.InvokeAsync();
+                await req.InvokeAsync();
             }
             finally
             {
                 var json = JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented);
                 _output.WriteLine(json);
-                Assert.Contains("无效app_key:todo", json);
+                Assert.Contains("无效app_key:todo", json); // 配置了无效的appkey ，此处断言app_key读取就ok了
             }
         }
 
@@ -218,7 +219,7 @@ namespace test
             };
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            //Assert.True(res.Code == 200 || res.Code == 1040); 接口未上线无法断言
+            Assert.True(res.Code == 200 || res.Code == 1040); // 接口未上线
         }
 
         [Fact]
@@ -240,10 +241,7 @@ namespace test
         [Fact]
         public async void Test_JdUnionOpenPositionQuery()
         {
-            var req = new JdUnionOpenPositionQueryRequest(_appKey, _appSecret)
-            {
-                // todo 参数
-            };
+            var req = new JdUnionOpenPositionQueryRequest(_appKey, _appSecret);
             var res = await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
             Assert.True(res.Code == 200 || res.Code == 403);
@@ -253,8 +251,7 @@ namespace test
         public async void Test_JdUnionOpenCouponImportation()
         {
             var first = await GetFirstGoods();
-            if (first == default) return;
-            var link = first.CouponInfo.CouponList.Select(x => x.Link).FirstOrDefault();
+            var link = first?.CouponInfo.CouponList.Select(x => x.Link).FirstOrDefault();
             if (link == null) return;
 
             var req = new JdUnionOpenCouponImportationRequest(_appKey, _appSecret)
