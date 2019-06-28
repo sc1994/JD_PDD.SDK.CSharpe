@@ -27,7 +27,7 @@ public partial class JdUnionOpenCategoryGoodsGetRequest : BaseRequest
     /// 必填：true
     /// 例如：1342
     /// </summary>
-    public int parentId { get; set; }
+    public int? ParentId { get; set; }
     .
     .
     .
@@ -46,7 +46,7 @@ public partial class JdUnionOpenCategoryGoodsGetResponse
     /// 必填：true
     /// 例如：1350
     /// </summary>
-    public int id { get; set; }
+    public int? Id { get; set; }
     .
     .
     .
