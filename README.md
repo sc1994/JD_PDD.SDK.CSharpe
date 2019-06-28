@@ -14,9 +14,6 @@
 
 生成注释完善的请求响应实体，统一使用方法名的规范命名规则  
 
-较为完善的单元测试（部分接口需要权限申请，或者一些特殊情况的，添加不满足生产的断言）
-![image](https://raw.githubusercontent.com/sc1994/JD_PDD.SDK.CSharpe/master/static/1561374793(1).jpg)
-
 ```c#
 /// <summary>
 /// 商品类目查询--请求参数
@@ -36,6 +33,7 @@ public partial class JdUnionOpenCategoryGoodsGetRequest : BaseRequest
     .
 }
 
+
 /// <summary>
 /// 商品类目查询--响应参数
 /// 根据商品的父类目id查询子类目id信息，通常用获取各级类目对应关系，以便将推广商品归类。业务参数parentId、grade都输入0可查询所有一级类目ID，之后再用其作为parentId查询其子类目。
@@ -54,6 +52,9 @@ public partial class JdUnionOpenCategoryGoodsGetResponse
     .
 }
 ```
+
+较为完善的单元测试（部分接口需要权限申请，或者一些特殊情况的，添加不满足生产的断言）
+![image](https://raw.githubusercontent.com/sc1994/JD_PDD.SDK.CSharpe/master/static/1561374793(1).jpg)
 
 支持默认和可传入的appkey等主要参数
 

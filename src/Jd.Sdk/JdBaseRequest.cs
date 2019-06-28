@@ -93,7 +93,15 @@ namespace Jd.Sdk
         /// </summary>
         private string _paramJson;
 
-        private string GetUrlParams()
+        /// <summary>
+        /// 首字符小写
+        /// </summary>
+        /// <returns></returns>
+        private string FirstLower(string source)
+            => source[0].ToString().ToLower() + source.Substring(1);
+
+        protected async Task<TResponse> PostAsync<TResponse>()
+            where TResponse : JdBaseResponse
         {
             var signParams = new Dictionary<string, object>
             {
@@ -106,7 +114,7 @@ namespace Jd.Sdk
             };
             if (!string.IsNullOrWhiteSpace(_accessToken)) // 如果需要
             {
-                signParams.Add(nameof(_accessToken), _accessToken);
+                signParams.Add("access_token", _accessToken);
             }
 
             var properties = GetType().GetProperties()
@@ -142,23 +150,8 @@ namespace Jd.Sdk
             signParams.Add("param_json", _paramJson); // param json 参与加密但是不参与url
             var sign = Sign.SignToMd5(signParams, _appSecret);
             urlParams += "&sign=" + sign;
-            return urlParams.TrimStart('&');
-        }
 
-        /// <summary>
-        /// 首字符小写
-        /// </summary>
-        /// <returns></returns>
-        private string FirstLower(string source)
-        {
-            return source[0].ToString().ToLower() + source.Substring(1);
-        }
-
-        protected async Task<TResponse> PostAsync<TResponse>()
-            where TResponse : JdBaseResponse
-        {
-            var url = _baseUrl + "?" + GetUrlParams();
-
+            var url = _baseUrl + "?" + urlParams.TrimStart('&');
             var async = await url
                         .WithHeader("Content-Type", "application/x-www-form-urlencoded")
                         .PostStringAsync($"param_json={HttpUtility.UrlEncode(_paramJson, Encoding.UTF8)}");

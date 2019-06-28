@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Linq;
 using System.IO;
-using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
@@ -22,15 +20,15 @@ namespace Tool
 
             if (type.KeyChar == '1')
             {
-                var allApiJson = "https://union.jd.com/api/apiDoc/categoryList"
+                var allApiJson = await "https://union.jd.com/api/apiDoc/categoryList"
                            .PostStringAsync("{}").Result
-                           .Content.ReadAsStringAsync().Result;
+                           .Content.ReadAsStringAsync();
 
                 var allApi = JsonConvert.DeserializeObject<JdAllApi>(allApiJson);
+                Directory.CreateDirectory("../Jd.Sdk/Apis");
                 foreach (var item in allApi.Data[0].Apis)
                 {
                     var code = await GetJdCode(item.ApiId);
-                    Directory.CreateDirectory("../Jd.Sdk/Apis");
                     var className = code.FirstOrDefault(x => x.Trim().StartsWith("public class ") && x.EndsWith("Request : JdBaseRequest"));
                     if (className != default)
                     {
@@ -55,7 +53,31 @@ namespace Tool
             }
             else if (type.KeyChar == '2')
             {
-                // var code = await GetPddCode(key.Trim());
+                var allApiJson = await "https://open-api.pinduoduo.com/pop/doc/info/list/byCat"
+                    .PostJsonAsync(new { id = 12 }).Result
+                    .Content.ReadAsStringAsync();
+
+                var allApi = JsonConvert.DeserializeObject<PddApiList>(allApiJson);
+                Directory.CreateDirectory("../Pdd.Sdk/Apis");
+                foreach (var item in allApi.Result.DocList)
+                {
+                    var code = await GetPddCode(item.Id);
+                    var apiName = string.Join("", item.Id.Split('.').Select(UpperFirst));
+                    var flatCode = FlatCode(code);
+                    // Console.WriteLine("[Fact]");
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    // Console.WriteLine();
+                    File.WriteAllLines($"../Pdd.Sdk/Apis/{apiName}.cs", flatCode);
+                }
+
+                // var code = await GetPddCode("pdd.ddk.cms.prom.url.generate");
             }
             Console.WriteLine("回车结束...");
             Console.ReadLine();
@@ -149,6 +171,7 @@ namespace Tool
                 case "boolean": return "bool?";
                 case "int":
                 case "integer": return "int?";
+                case "integer[]": return "int[]";
                 case "long": return "long?";
                 case "double": return "double?";
                 case "map": return "System.Collections.Generic.Dictionary<string, object>";

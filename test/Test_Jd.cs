@@ -11,12 +11,12 @@ using Xunit.Abstractions;
 
 namespace test
 {
-    public class JdTest
+    public class Test_Jd
     {
         private readonly string _appKey;
         private readonly string _appSecret;
         private readonly ITestOutputHelper _output;
-        public JdTest(ITestOutputHelper output)
+        public Test_Jd(ITestOutputHelper output)
         {
             var apps = File.ReadAllLines("D:/app.pub");
             _appKey = apps[0];
@@ -217,9 +217,9 @@ namespace test
                 MediaName = "huhu",
                 PromotionType = 1
             };
-            var res = await req.InvokeAsync();
+            await req.InvokeAsync();
             _output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));
-            Assert.True(res.Code == 200 || res.Code == 1040); // 接口未上线
+            // Assert.True(res.Code == 200 || res.Code == 1040); // 接口未上线
         }
 
         [Fact]

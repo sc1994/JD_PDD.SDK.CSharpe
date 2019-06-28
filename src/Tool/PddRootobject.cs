@@ -4,6 +4,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Globalization;
+using Common;
+using System.Collections.Generic;
 
 namespace Tool
 {
@@ -18,39 +22,67 @@ namespace Tool
 
             var className = root.result.scopeName;
             className = string.Join("", className.Split('.').Select(UpperFirst));
-            Console.WriteLine(className);
             var code = new StringBuilder();
-            code.AppendLine("namespace todo");
+            code.AppendLine("using System.Threading.Tasks;");
+            code.AppendLine("using Newtonsoft.Json;");
+            code.AppendLine();
+            code.AppendLine("namespace Pdd.Sdk.Apis");
             code.AppendLine("{");
-            code.AppendLine("/// <summary>");
-            code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--请求参数");
-            code.AppendLine($"/// {root.result.scopeName}");
-            code.AppendLine("/// </summary>");
-            code.AppendLine($"public class {className}Request : BaseRequest");
-            code.AppendLine("{");
+            code.AppendLine("    /// <summary>");
+            code.AppendLine($"    /// {root.result.apiName}--请求参数");
+            code.AppendLine($"    /// {root.result.usageScenarios}");
+            code.AppendLine($"    /// {id}");
+            code.AppendLine($"    /// https://open.pinduoduo.com/#/apidocument/port?id={id}");
+            code.AppendLine("    /// </summary>");
+            code.AppendLine($"    public class {className}Request : PddBaseRequest");
+            code.AppendLine("    {");
+            code.AppendLine($"        protected override string Type => \"{id}\";");
+            code.AppendLine();
+            code.AppendLine($"        public {className}Request() {{ }}");
+            code.AppendLine();
+            code.AppendLine($"        public {className}Request(string clientId, string clientSecret) : base(clientId, clientSecret) {{ }}");
+            code.AppendLine();
+            code.AppendLine($"        public async Task<{className}Response> InvokeAsync()");
+            code.AppendLine($"            => await PostAsync<{className}Response>();");
             foreach (var item in root.result.requestParamList.Where(x => x.parentId == 0))
             {
-                GetPddParamStereoscopic(item, root.result.requestParamList, className, ref code);
+                GetPddParamStereoscopic(
+                    item,
+                    root.result.requestParamList,
+                    className,
+                    "        ",
+                    true,
+                    ref code);
             }
-            code.AppendLine("}");
+            code.AppendLine("    }");
             code.AppendLine();
             code.AppendLine();
-            code.AppendLine();
-            code.AppendLine("/// <summary>");
-            code.AppendLine($"/// {root.result.apiName}--{root.result.usageScenarios}--响应参数");
-            code.AppendLine($"/// {root.result.scopeName}");
-            code.AppendLine("/// </summary>");
-            code.AppendLine($"public class {className}Response");
-            code.AppendLine("{");
-            foreach (var item in root.result.responseParamList.Where(x => x.parentId == 0))
+            code.AppendLine("    /// <summary>");
+            code.AppendLine($"    /// {root.result.apiName}--响应参数");
+            code.AppendLine($"    /// {root.result.usageScenarios}");
+            code.AppendLine("    /// </summary>");
+            code.AppendLine($"    public class {className}Response : PddBaseResponse");
+            code.AppendLine("    {");
+            IEnumerable<PddResponseparamlist> responseList;
+            if (root.result.responseParamList.Any(x => x.paramName == "total"))
+            {
+                responseList = root.result.responseParamList.Where(x => x.parentId == 1);
+            }
+            else
+            {
+                responseList = root.result.responseParamList.Where(x => x.parentId == 0);
+            }
+            foreach (var item in responseList)
             {
                 GetPddParamStereoscopic(
                     new PddRequestparamlist(item),
                     root.result.responseParamList.Select(x => new PddRequestparamlist(x)).ToArray(),
                     className,
+                    "        ",
+                    false,
                     ref code);
             }
-            code.AppendLine("}");
+            code.AppendLine("    }");
             code.AppendLine("}");
             var lines = code.ToString().Split("\r\n");
             return lines.ToArray();
@@ -60,17 +92,25 @@ namespace Tool
             PddRequestparamlist item,
             PddRequestparamlist[] all,
             string className,
+            string spacing,
+            bool isRequest,
             ref StringBuilder code)
         {
-            code.AppendLine("/// <summary>");
-            code.AppendLine($"/// 描述：{item.paramDesc}");
-            if (item.isMust != -1)
+            code.AppendLine($"{spacing}/// <summary>");
+            if (item.isMust != -1 && isRequest)
             {
-                code.AppendLine($"/// 必填：{item.isMust}");
-                code.AppendLine($"/// 默认值：{item.defaultValue}");
+                code.AppendLine($"{spacing}/// {(item.isMust == 0 ? "不必填" : "必填")}");
             }
-            code.AppendLine($"/// 例如：{item.example}");
-            code.AppendLine("/// </summary>");
+            code.AppendLine($"{spacing}/// {item.paramDesc}");
+            if (isRequest && !string.IsNullOrWhiteSpace(item.defaultValue))
+            {
+                code.AppendLine($"{spacing}/// 默认值：{item.defaultValue}");
+            }
+            if (!string.IsNullOrWhiteSpace(item.example))
+            {
+                code.AppendLine($"{spacing}/// 例如：{item.example}");
+            }
+            code.AppendLine($"{spacing}/// </summary>");
 
             var currentNodes = all.Where(x => x.parentId == item.id).ToArray();
 
@@ -78,21 +118,35 @@ namespace Tool
             {
                 var tempName = string.Join("", item.paramName.Split('_').Select(UpperFirst));
                 var tempSymbol = item.paramType.Replace("OBJECT", "");
-                code.AppendLine($"public {className}_{tempName}{tempSymbol} {item.paramName} {{ get; set; }}");
-                code.AppendLine("/// <summary>");
-                code.AppendLine($"/// {item.paramDesc}");
-                code.AppendLine("/// </summary>");
-                code.AppendLine($"public class {className}_{tempName}");
-                code.AppendLine("{");
+                if (!isRequest)
+                {
+                    code.AppendLine($"{spacing}[JsonProperty(\"{item.paramName}\")]");
+                }
+                code.AppendLine($"{spacing}public {className}_{tempName}{tempSymbol} {ConvertExtend.UnderlineToUpper(item.paramName)} {{ get; set; }}");
+                code.AppendLine($"{spacing}/// <summary>");
+                code.AppendLine($"{spacing}/// {item.paramDesc}");
+                code.AppendLine($"{spacing}/// </summary>");
+                code.AppendLine($"{spacing}public class {className}_{tempName}");
+                code.AppendLine($"{spacing}{{");
                 foreach (var that in currentNodes)
                 {
-                    GetPddParamStereoscopic(that, all, className, ref code);
+                    GetPddParamStereoscopic(
+                        that,
+                        all,
+                        className,
+                        spacing + "    ",
+                        isRequest,
+                        ref code);
                 }
-                code.AppendLine("}");
+                code.AppendLine($"{spacing}}}");
             }
             else
             {
-                code.AppendLine($"public {SwitchType(item.paramType)} {item.paramName} {{ get; set; }}");
+                if (!isRequest)
+                {
+                    code.AppendLine($"{spacing}[JsonProperty(\"{item.paramName}\")]");
+                }
+                code.AppendLine($"{spacing}public {SwitchType(item.paramType)} {ConvertExtend.UnderlineToUpper(item.paramName)} {{ get; set; }}");
             }
         }
     }
@@ -203,5 +257,113 @@ namespace Tool
         public string name { get; set; }
         public string description { get; set; }
         public string url { get; set; }
+    }
+
+    public partial class PddApiList
+    {
+        [JsonProperty("success")]
+        public bool Success { get; set; }
+
+        [JsonProperty("errorCode")]
+        public long ErrorCode { get; set; }
+
+        [JsonProperty("errorMsg")]
+        public object ErrorMsg { get; set; }
+
+        [JsonProperty("result")]
+        public Result Result { get; set; }
+    }
+
+    public partial class Result
+    {
+        [JsonProperty("id")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long Id { get; set; }
+
+        [JsonProperty("catName")]
+        public string CatName { get; set; }
+
+        [JsonProperty("docList")]
+        public DocList[] DocList { get; set; }
+    }
+
+    public partial class DocList
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("scopeName")]
+        public string ScopeName { get; set; }
+
+        [JsonProperty("scopeNameId")]
+        public long ScopeNameId { get; set; }
+
+        [JsonProperty("apiName")]
+        public string ApiName { get; set; }
+
+        [JsonProperty("usageScenarios")]
+        public string UsageScenarios { get; set; }
+
+        [JsonProperty("createdAt")]
+        public long CreatedAt { get; set; }
+
+        [JsonProperty("updatedAt")]
+        public long UpdatedAt { get; set; }
+
+        [JsonProperty("scopeTips")]
+        public string ScopeTips { get; set; }
+    }
+
+    public partial class PddApiList
+    {
+        public static PddApiList FromJson(string json) => JsonConvert.DeserializeObject<PddApiList>(json, Converter.Settings);
+    }
+
+    public static class Serialize
+    {
+        public static string ToJson(this PddApiList self) => JsonConvert.SerializeObject(self, Converter.Settings);
+    }
+
+    internal static class Converter
+    {
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+            DateParseHandling = DateParseHandling.None,
+            Converters = {
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+            },
+        };
+    }
+
+    internal class ParseStringConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            long l;
+            if (Int64.TryParse(value, out l))
+            {
+                return l;
+            }
+            throw new Exception("Cannot unmarshal type long");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (long)untypedValue;
+            serializer.Serialize(writer, value.ToString());
+            return;
+        }
+
+        public static readonly ParseStringConverter Singleton = new ParseStringConverter();
     }
 }

@@ -1,7 +1,11 @@
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common;
 using Flurl.Http;
 using Microsoft.Extensions.Configuration;
+using System;
+using Newtonsoft.Json;
 
 namespace Pdd.Sdk
 {
@@ -35,7 +39,13 @@ namespace Pdd.Sdk
             _clientSecret = config.GetSection("Pdd.Sdk")["ClientSecret"];
         }
 
-        private readonly string _baseUrl = "";
+        protected PddBaseRequest(string clientId, string clientSecret)
+        {
+            _clientId = clientId;
+            _clientSecret = clientSecret;
+        }
+
+        private const string _baseUrl = "http://gw-api.pinduoduo.com/api/router";
 
         /// <summary>
         /// 必填
@@ -49,18 +59,80 @@ namespace Pdd.Sdk
         /// </summary>
         protected string AccessToken { get; set; }
 
-        /// <summary>
-        /// 必填
-        /// API输入参数签名结果，签名算法参考开放平台接入指南第三部分底部。
-        /// /// </summary>
-        protected string Sign { get; set; }
+        public object DebugInfo { get; set; }
 
-        //protected async Task<TResponse> PostAsync<TResponse>()
-        //{
-        //    var url = _baseUrl;
-        //    var async = url.PostStringAsync(string.Empty);
+        protected async Task<TResponse> PostAsync<TResponse>()
+            where TResponse : PddBaseResponse
+        {
+            var dicParams = new Dictionary<string, string>
+            {
+                { "timestamp", _timestamp },
+                { "client_id", _clientId },
+                { "type", Type },
+                { "data_type", "JSON" },
+                { "version", "V1" }
+            };
 
-        //}
+            var dicDerive = GetType()
+                .GetProperties()
+                .Where(x =>
+                {
+                    if (x.Name == nameof(DebugInfo)) return false;
+                    var val = x.GetValue(this);
+                    if (val is string str)
+                    {
+                        return !string.IsNullOrWhiteSpace(str);
+                    }
+                    return val != null;
+                })
+                .ToDictionary(
+                    x => ConvertExtend.UpperToUnderline(x.Name), x => JsonConvert.SerializeObject(x.GetValue(this)));
+
+            foreach (var item in dicDerive)
+            {
+                dicParams.Add(item.Key, item.Value);
+            }
+            var sign = Sign.SignToMd5(dicParams.ToDictionary(x => x.Key, x => (object)x.Value), _clientSecret);
+            var urlParams = $"?sign={sign}";
+            foreach (var item in dicParams)
+            {
+                urlParams += $"&{item.Key}={item.Value}";
+            }
+
+            var url = _baseUrl + urlParams;
+            var async = await url.PostStringAsync(string.Empty);
+            var @string = await async.Content.ReadAsStringAsync();
+            try
+            {
+                if (@string.Contains("\"error_response\":{\"error_msg\":\"")) // todo 有注入的风险
+                {
+                    var resError = JsonConvert.DeserializeObject<KeyValuePair<string, object>>(@string);
+                    DebugInfo = new
+                    {
+                        url,
+                        resError
+                    };
+                    return default;
+                }
+                var res = JsonConvert.DeserializeObject<Dictionary<string, TResponse>>(@string);
+                DebugInfo = new
+                {
+                    url,
+                    res
+                };
+                return res.First().Value;
+            }
+            catch (Exception ex)
+            {
+                DebugInfo = new
+                {
+                    url,
+                    @string,
+                    ex
+                };
+                return default;
+            }
+        }
     }
 
     public abstract class PddPageBaseRequest : PddBaseRequest
