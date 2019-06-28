@@ -73,10 +73,6 @@ await new JdUnionOpenCategoryGoodsGetRequest(...).InvokeAsync();
 
 - 进入`src/Tool`目录，运行`dotnet run`
 - 选择jd或者pdd
-- jd需要输入接口id，比如：`https://union.jd.com/openplatform/api/650` 这个接口的id就是650。  
-pdd需要传入接口标识，比如：`https://open.pinduoduo.com/#/apidocument/port?id=pdd.ddk.top.goods.list.query`这个接口的标识就是pdd.ddk.top.goods.list.query。
-- 生成代码在当前目录的`Codes`文件夹下，以输入的标识命名，重复的命名会覆盖之前的文件。
-- 代码不能直接使用，命名空间需要修改，而且有些数据类型使用了大写等问题。理论上只要修改掉报错代码，接口就能调用成功。
 
 ## 正确的使用姿势
 
@@ -104,6 +100,11 @@ public class JdUnionOpenOrderQuery_SkuInfo
 ## 更新日志
 
 ```txt
+2019年6月28日 加入 pdd 多多客接口
+            |
+            .
+            |
+            v
 2019年6月25日 优化嵌套类的结构，加入config
             |
             .
