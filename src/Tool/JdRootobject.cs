@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace Tool
 {
-
     partial class Program
     {
         static async Task<string[]> GetJdCode(int id)

@@ -64,16 +64,17 @@ namespace Tool
                     var code = await GetPddCode(item.Id);
                     var apiName = string.Join("", item.Id.Split('.').Select(UpperFirst));
                     var flatCode = FlatCode(code);
-                    // Console.WriteLine("[Fact]");
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
-                    // Console.WriteLine();
+                    Console.WriteLine("[Fact]");
+                    Console.WriteLine($"public async Task Test_{apiName}()");
+                    Console.WriteLine("{");
+                    Console.WriteLine($"var req = new {apiName}Request(_clientId, _clientSecret)");
+                    Console.WriteLine("{");
+                    Console.WriteLine("// todo");
+                    Console.WriteLine("};");
+                    Console.WriteLine("var res = await req.InvokeAsync();");
+                    Console.WriteLine("_output.WriteLine(JsonConvert.SerializeObject(req.DebugInfo, Formatting.Indented));");
+                    Console.WriteLine("Assert.True(res != default);");
+                    Console.WriteLine("}");
                     File.WriteAllLines($"../Pdd.Sdk/Apis/{apiName}.cs", flatCode);
                 }
 

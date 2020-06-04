@@ -103,7 +103,7 @@ namespace Jd.Sdk
         protected async Task<TResponse> PostAsync<TResponse>()
             where TResponse : JdBaseResponse
         {
-            var signParams = new Dictionary<string, object>
+            var signParams = new Dictionary<string, string>
             {
                 {"method", Method},
                 {"app_key", _appKey},

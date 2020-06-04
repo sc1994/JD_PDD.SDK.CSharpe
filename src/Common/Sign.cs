@@ -13,9 +13,9 @@ namespace Common
         /// <param name="params"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
-        public static string SignToMd5(Dictionary<string, object> @params, string secret)
+        public static string SignToMd5(Dictionary<string, string> @params, string secret)
         {
-            var sortDic = new SortedDictionary<string, object>(@params);
+            var sortDic = new SortedDictionary<string, string>(@params);
             var query = new StringBuilder(secret);
             foreach (var item in sortDic)
             {
