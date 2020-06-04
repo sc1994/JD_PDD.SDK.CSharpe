@@ -8,6 +8,7 @@ using System;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Pdd.Sdk
 {
@@ -102,8 +103,10 @@ namespace Pdd.Sdk
             }
 
             var url = _baseUrl + urlParams;
+            Debug.WriteLine(url);
             var async = await url.PostStringAsync(string.Empty);
             var @string = await async.Content.ReadAsStringAsync();
+            Debug.WriteLine(@string);
             try
             {
                 if (@string.Contains("\"error_response\":{\"error_msg\":\"")) // todo 有注入的风险
