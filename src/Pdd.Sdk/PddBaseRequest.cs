@@ -44,6 +44,7 @@ namespace Pdd.Sdk
 
         protected PddBaseRequest(string clientId, string clientSecret)
         {
+            _timestamp = Time.GetTimeStampSecond();
             _clientId = clientId;
             _clientSecret = clientSecret;
         }
@@ -111,7 +112,7 @@ namespace Pdd.Sdk
             {
                 if (@string.Contains("\"error_response\":{\"error_msg\":\"")) // todo 有注入的风险
                 {
-                    var resError = JsonConvert.DeserializeObject<Dictionary<string, object>>(@string);
+                    var resError = JsonConvert.DeserializeObject<KeyValuePair<string, string>>(@string);
                     DebugInfo = new
                     {
                         url,
